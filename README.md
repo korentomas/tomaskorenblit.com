@@ -1,38 +1,58 @@
-# Remix
+# Remix Portfolio
 
-This directory is a brief example of a [Remix](https://remix.run/docs) site that can be deployed to Vercel with zero configuration.
+A modern portfolio website built with Remix, featuring a clean and responsive design.
 
-To get started, run the Remix cli with this template
+## Features
 
+- Built with Remix for optimal performance and SEO
+- Modern and responsive design
+- TypeScript for type safety
+- Vercel deployment ready
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js 18 or later
+- npm or yarn
+
+### Installation
+
+1. Clone the repository:
 ```sh
-npx create-remix@latest --template vercel/vercel/examples/remix
+git clone https://github.com/yourusername/remix-portfolio.git
+cd remix-portfolio
 ```
 
-## Deploy Your Own
+2. Install dependencies:
+```sh
+npm install
+```
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/vercel/examples/tree/main/framework-boilerplates/remix&template=remix)
+3. Start the development server:
+```sh
+npm run dev
+```
 
-_Live Example: https://remix-run-template.vercel.app_
+4. Open [http://localhost:5173](http://localhost:5173) in your browser.
 
-You can also deploy using the [Vercel CLI](https://vercel.com/docs/cli):
+## Development
+
+The project uses:
+- Remix for the framework
+- TypeScript for type safety
+- ESLint for code linting
+- Vite for build tooling
+
+## Deployment
+
+This project is configured for deployment on Vercel. You can deploy your own copy using the Vercel CLI:
 
 ```sh
 npm i -g vercel
 vercel
 ```
 
-## Development
+## License
 
-To run your Remix app locally, make sure your project's local dependencies are installed:
-
-```sh
-npm install
-```
-
-Afterwards, start the Remix development server like so:
-
-```sh
-npm run dev
-```
-
-Open up [http://localhost:5173](http://localhost:5173) and you should be ready to go!
+MIT

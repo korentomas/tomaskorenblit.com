@@ -4,9 +4,10 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  LiveReload,
 } from "@remix-run/react";
 import { Analytics } from "@vercel/analytics/react";
-import { ThemeProvider } from "~/context/ThemeContext";
+import { ThemeProvider, useTheme } from "~/context/ThemeContext";
 import styles from "./styles/global.css?url";
 
 export const links = () => [
@@ -50,11 +51,43 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <ScrollRestoration />
         <Scripts />
         <Analytics />
+        <LiveReload />
       </body>
     </html>
   );
 }
 
 export default function App() {
-  return <Outlet />;
+  const { theme } = useTheme();
+
+  return (
+    <html lang="en" data-theme={theme}>
+      <head>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <Meta />
+        <Links />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  const theme = localStorage.getItem('theme') || 'light';
+                  document.documentElement.setAttribute('data-theme', theme);
+                } catch (e) {
+                  console.error('Failed to set theme:', e);
+                }
+              })();
+            `,
+          }}
+        />
+      </head>
+      <body>
+        <Outlet />
+        <ScrollRestoration />
+        <Scripts />
+        <LiveReload />
+      </body>
+    </html>
+  );
 }

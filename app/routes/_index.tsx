@@ -1,25 +1,133 @@
-import type { MetaFunction } from "@vercel/remix";
+import type { MetaFunction, LoaderFunction } from "@vercel/remix";
 import { useTheme } from "~/context/ThemeContext";
+import { useEffect, useRef, useState } from "react";
+import { json } from "@remix-run/node";
+import { useLoaderData } from "@remix-run/react";
+import { optimizeImage } from "~/utils/imageOptimizer";
+
+export const loader: LoaderFunction = async () => {
+  const optimizedImagePath = await optimizeImage('also_me.png', {
+    width: 800,
+    quality: 90,
+    format: 'webp'
+  });
+
+  return json({ optimizedImagePath });
+};
 
 export const meta: MetaFunction = () => {
   return [
-    { title: "Tomás Korenblit | Data Scientist & Bayesian Specialist" },
+    { title: "Tomás Korenblit | Data Scientist" },
     { name: "description", content: "Data Scientist specializing in Bayesian methods and Machine Learning. Portfolio showcasing projects in data analysis, machine learning, and statistical modeling." },
     { name: "keywords", content: "Data Science, Machine Learning, Bayesian Statistics, PyMC, Data Analysis" },
     { name: "author", content: "Tomás Korenblit" },
     { name: "viewport", content: "width=device-width, initial-scale=1" },
-    { property: "og:title", content: "Tomás Korenblit | Data Scientist & Bayesian Specialist" },
+    { property: "og:title", content: "Tomás Korenblit | Data Scientist" },
     { property: "og:description", content: "Data Scientist specializing in Bayesian methods and Machine Learning. Portfolio showcasing projects in data analysis, machine learning, and statistical modeling." },
     { property: "og:type", content: "website" },
     { name: "twitter:card", content: "summary" },
-    { name: "twitter:title", content: "Tomás Korenblit | Data Scientist & Bayesian Specialist" },
-    { name: "twitter:description", content: "Data Scientist specializing in Bayesian methods and Machine Learning. Portfolio showcasing projects in data analysis, machine learning, and statistical modeling." }
+    { name: "twitter:title", content: "Tomás Korenblit | Data Scientist" },
+    { name: "twitter:description", content: "Data Scientist specializing in Bayesian methods and Machine Learning. Portfolio showcasing projects in data analysis, machine learning, and statistical modeling." },
+    { rel: "preload", as: "image", href: "/optimized-images/also_me-800w-90q.webp" }
   ];
 };
 
 export default function Index() {
   const { theme, toggleTheme } = useTheme();
-  
+  const imageRef = useRef<HTMLDivElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [imageError, setImageError] = useState(false);
+  const { optimizedImagePath } = useLoaderData<{ optimizedImagePath: string }>();
+
+  useEffect(() => {
+    const image = imageRef.current;
+    if (!image) return;
+
+    let currentX = 0;
+    let currentY = 0;
+    let currentZ = 0;
+    let targetX = 0;
+    let targetY = 0;
+    let targetZ = 0;
+    let animationFrameId: number;
+
+    const handleMouseMove = (e: MouseEvent) => {
+      const rect = image.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+      
+      // Calculate distance from center of image
+      const deltaX = e.clientX - centerX;
+      const deltaY = e.clientY - centerY;
+      
+      // Calculate target rotation based on distance from center
+      // Negative sign only for vertical rotation
+      targetX = -(deltaY / window.innerHeight) * 20; // Max 20 degrees
+      targetY = (deltaX / window.innerWidth) * 30; // Max 30 degrees
+      
+      // Calculate Z depth based on mouse distance from center
+      const distanceFromCenter = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+      const maxDistance = Math.sqrt(window.innerWidth * window.innerWidth + window.innerHeight * window.innerHeight) / 2;
+      targetZ = (distanceFromCenter / maxDistance) * 20; // Max 20px depth
+    };
+
+    const animate = () => {
+      // Slightly faster interpolation for more responsive movement
+      currentX += (targetX - currentX) * 0.08;
+      currentY += (targetY - currentY) * 0.08;
+      currentZ += (targetZ - currentZ) * 0.08;
+
+      // Apply the transform with perspective and Z translation
+      image.style.transform = `perspective(1000px) rotateX(${currentX}deg) rotateY(${currentY}deg) translateZ(${currentZ}px)`;
+
+      animationFrameId = requestAnimationFrame(animate);
+    };
+
+    // Start animation loop
+    animate();
+
+    // Add event listener to window
+    window.addEventListener('mousemove', handleMouseMove);
+
+    return () => {
+      // Cleanup
+      cancelAnimationFrame(animationFrameId);
+      window.removeEventListener('mousemove', handleMouseMove);
+    };
+  }, []);
+
+  // Draw placeholder on canvas
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    // Set canvas size to match container
+    const rect = canvas.getBoundingClientRect();
+    canvas.width = rect.width;
+    canvas.height = rect.height;
+
+    // Draw gradient background
+    const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+    gradient.addColorStop(0, 'rgba(0, 0, 0, 0.05)');
+    gradient.addColorStop(1, 'rgba(0, 0, 0, 0.1)');
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+  }, []);
+
+  const handleImageLoad = () => {
+    setIsLoading(false);
+    setImageError(false);
+  };
+
+  const handleImageError = () => {
+    setIsLoading(false);
+    setImageError(true);
+  };
+
   return (
     <div className="main-container" role="main">
       <div className="theme-toggle">
@@ -48,146 +156,83 @@ export default function Index() {
         </button>
       </div>
 
-      <header className="site-header">
-        <div className="header-content">
-          <h1 className="hero-title">Tomás Korenblit</h1>
-          <div className="hero-tagline">[Data Scientist & Problem Solver]</div>
+      <div className="split-layout">
+        {/* Left Side */}
+        <div className="left-side">
+          <h1 className="name">Tomás Pablo Korenblit</h1>
+          <div className="profile-image" ref={imageRef}>
+            <canvas ref={canvasRef} className={isLoading ? 'visible' : ''} />
+            <img 
+              src={optimizedImagePath}
+              alt="Tomás Korenblit" 
+              onLoad={handleImageLoad}
+              onError={handleImageError}
+              className={!isLoading ? 'loaded' : ''}
+              draggable="false"
+            />
+            {imageError && (
+              <div className="image-error">
+                Failed to load image
+              </div>
+            )}
+          </div>
+          <h2 className="title">Data Scientist</h2>
+          <div className="social-icons">
+            <a href="https://github.com/tomaskorenblit" target="_blank" rel="noreferrer" aria-label="GitHub">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+              </svg>
+            </a>
+            <a href="https://linkedin.com/in/tomaskorenblit" target="_blank" rel="noreferrer" aria-label="LinkedIn">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                <rect x="2" y="9" width="4" height="12"></rect>
+                <circle cx="4" cy="4" r="2"></circle>
+              </svg>
+            </a>
+            <a href="mailto:tomaskorenblit@gmail.com" aria-label="Email">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                <polyline points="22,6 12,13 2,6"></polyline>
+              </svg>
+            </a>
+          </div>
         </div>
-      </header>
-      
-      <div className="desktop-icons">
-        <a href="https://github.com/tomaskorenblit" target="_blank" rel="noreferrer" className="desktop-icon" aria-label="Visit Tomás Korenblit's GitHub profile">
-          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
-          </svg>
-          <span>GitHub</span>
-        </a>
 
-        <a href="mailto:tomaskorenblit@gmail.com" className="desktop-icon" aria-label="Send email to tomaskorenblit@gmail.com">
-          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-            <polyline points="22,6 12,13 2,6"></polyline>
-          </svg>
-          <span>Email</span>
-        </a>
-
-        <a href="https://linkedin.com/in/tomaskorenblit" target="_blank" rel="noreferrer" className="desktop-icon" aria-label="Visit Tomás Korenblit's LinkedIn profile">
-          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
-            <rect x="2" y="9" width="4" height="12"></rect>
-            <circle cx="4" cy="4" r="2"></circle>
-          </svg>
-          <span>LinkedIn</span>
-        </a>
-      </div>
-
-      <div className="asymmetric-wrapper">
-        {/* Left Column - Info Panel */}
-        <div className="left-column" role="complementary">
-          {/* Hero Section */}
-          <section className="hero-section" aria-labelledby="hero-intro">
-            <p className="hero-intro" id="hero-intro">
-              Driven by curiosity, I've spent years crafting solutions to complex problems—whether it's developing apps or applying machine learning models. Now, as a data scientist, I continue to innovate and create technologies that transform ideas into results.
-            </p>
-          </section>
+        {/* Right Side */}
+        <div className="right-side">
+          <div className="hero-text">
+            <p>Driven by curiosity, I've spent years crafting solutions to complex problems—whether it's developing apps or applying machine learning models. Now, as a data scientist, I continue to innovate and create technologies that transform ideas into results.</p>
+          </div>
           
-          {/* Education Section */}
-          <section className="education-container" aria-labelledby="education-title">
-            <h2 className="section-title" id="education-title">BSc. Data Science</h2>
-            <div className="education-content">
-              <p>Universidad Nacional de San Martín (UNSAM)<br />
-                Currently in third year<br />
-                <a href="https://unsam.edu.ar/escuelas/ecyt/661/ciencia/ciencia-de-datos" target="_blank" rel="noreferrer" aria-label="View Data Science curriculum at UNSAM">
-                  View Curriculum
+          <section className="what-i-do">
+            <h2>What I Do</h2>
+            <ul>
+              <li>Bayesian statistical modeling with PyMC</li>
+              <li>Advanced ML optimization techniques</li>
+              <li>GPU-accelerated model training</li>
+            </ul>
+          </section>
+
+          <section className="projects">
+            <h2>My Projects</h2>
+            <div className="project-grid">
+              <div className="project-card">
+                <a href="https://boston-crime-deploy.herokuapp.com/" target="_blank" rel="noreferrer">
+                  <h3>Boston Crime Analysis</h3>
+                  <p>Interactive visualizations of Boston crime report data using Pandas, Plotly and Streamlit.</p>
                 </a>
-              </p>
-            </div>
-          </section>
-          
-          {/* Current Focus Section */}
-          <section className="focus-section" aria-labelledby="focus-title">
-            <h2 className="section-title" id="focus-title">Current Focus</h2>
-            <div className="focus-content">
-              <p>Deepening my knowledge in:</p>
-              <ul className="focus-list">
-                <li>Bayesian statistical modeling with PyMC</li>
-                <li>Advanced ML optimization techniques</li>
-                <li>GPU-accelerated model training</li>
-              </ul>
-            </div>
-          </section>
-        </div>
-        
-        {/* Right Column - Content Panel */}
-        <div className="right-column">
-          {/* Skills Section */}
-          <section className="skills-section" aria-labelledby="skills-title">
-            <h2 className="section-title" id="skills-title">Technical Skills</h2>
-            <div className="skills-grid">
-              <div>
-                <h3 className="skill-category">Machine Learning</h3>
-                <ul className="skills-list">
-                  <li><strong>Bayesian:</strong> PyMC</li>
-                  <li><strong>Gradient Boosting:</strong> CatBoost, LightGBM, XGBoost</li>
-                  <li><strong>Optimization:</strong> Optuna, GPU acceleration</li>
-                </ul>
-              </div>
-              
-              <div>
-                <h3 className="skill-category">Data Engineering</h3>
-                <ul className="skills-list">
-                  <li><strong>Analysis:</strong> Pandas, NumPy, Scikit-learn</li>
-                  <li><strong>Visualization:</strong> Plotly, Matplotlib</li>
-                  <li><strong>Web Development:</strong> Flask, Remix, React</li>
-                </ul>
-              </div>
-            </div>
-          </section>
-          
-          {/* Projects Section */}
-          <section className="projects-section" aria-labelledby="projects-title">
-            <h2 className="section-title" id="projects-title">Featured Projects</h2>
-            
-            <div className="projects-grid">
-              <div className="project-card">
-                <h3 className="project-title">
-                  <a href="https://boston-crime-deploy.herokuapp.com/" target="_blank" rel="noreferrer" aria-label="View Boston Crime Analysis project">
-                    Boston Crime Analysis
-                  </a>
-                </h3>
-                <div className="project-content">
-                  <div className="project-description">
-                    <p>Interactive visualizations of Boston crime report data using Pandas, Plotly and Streamlit.</p>
-                  </div>
-                  <div className="project-tags" role="list">
-                    <span className="tag" role="listitem">Data Visualization</span>
-                    <span className="tag" role="listitem">Pandas</span>
-                    <span className="tag" role="listitem">Streamlit</span>
-                  </div>
-                </div>
               </div>
               
               <div className="project-card">
-                <h3 className="project-title">
-                  <a href="https://koren-rev-analysis.herokuapp.com/" target="_blank" rel="noreferrer" aria-label="View Movie Review Sentiment Analysis project">
-                    Movie Review Sentiment Analysis
-                  </a>
-                </h3>
-                <div className="project-content">
-                  <div className="project-description">
-                    <p>Text classification and sentiment analysis on IMDb reviews with regex preprocessing, TfidfVectorizer, and sklearn.</p>
-                  </div>
-                  <div className="project-tags" role="list">
-                    <span className="tag" role="listitem">NLP</span>
-                    <span className="tag" role="listitem">Machine Learning</span>
-                    <span className="tag" role="listitem">Flask</span>
-                  </div>
-                </div>
+                <a href="https://koren-rev-analysis.herokuapp.com/" target="_blank" rel="noreferrer">
+                  <h3>Movie Review Sentiment Analysis</h3>
+                  <p>Text classification and sentiment analysis on IMDb reviews with regex preprocessing, TfidfVectorizer, and sklearn.</p>
+                </a>
               </div>
             </div>
           </section>
         </div>
-      
       </div>
     </div>
   );

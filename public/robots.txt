@@ -3,4 +3,4 @@ User-agent: *
 Allow: /
 
 # Sitemap location
-Sitemap: https://korenblit.vercel.app/sitemap.xml 
+Sitemap: https://tomaskorenblit.com/sitemap.xml 
