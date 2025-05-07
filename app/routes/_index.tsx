@@ -1,6 +1,6 @@
 import type { MetaFunction, LoaderFunction } from "@vercel/remix";
 import { useTheme } from "~/context/ThemeContext";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { optimizeImage } from "~/utils/imageOptimizer";
@@ -38,9 +38,6 @@ export const meta: MetaFunction = () => {
 export default function Index() {
   const { theme, toggleTheme } = useTheme();
   const imageRef = useRef<HTMLDivElement>(null);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [imageError, setImageError] = useState(false);
   const { optimizedImagePath } = useLoaderData<{ optimizedImagePath: string }>();
 
   useEffect(() => {
@@ -65,7 +62,6 @@ export default function Index() {
       const deltaY = e.clientY - centerY;
       
       // Calculate target rotation based on distance from center
-      // Negative sign only for vertical rotation
       targetX = -(deltaY / window.innerHeight) * 20; // Max 20 degrees
       targetY = (deltaX / window.innerWidth) * 30; // Max 30 degrees
       
@@ -76,64 +72,23 @@ export default function Index() {
     };
 
     const animate = () => {
-      // Slightly faster interpolation for more responsive movement
       currentX += (targetX - currentX) * 0.08;
       currentY += (targetY - currentY) * 0.08;
       currentZ += (targetZ - currentZ) * 0.08;
 
-      // Apply the transform with perspective and Z translation
       image.style.transform = `perspective(1000px) rotateX(${currentX}deg) rotateY(${currentY}deg) translateZ(${currentZ}px)`;
 
       animationFrameId = requestAnimationFrame(animate);
     };
 
-    // Start animation loop
     animate();
-
-    // Add event listener to window
     window.addEventListener('mousemove', handleMouseMove);
 
     return () => {
-      // Cleanup
       cancelAnimationFrame(animationFrameId);
       window.removeEventListener('mousemove', handleMouseMove);
     };
   }, []);
-
-  // Draw placeholder on canvas
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-
-    // Set canvas size to match container
-    const rect = canvas.getBoundingClientRect();
-    canvas.width = rect.width;
-    canvas.height = rect.height;
-
-    // Draw gradient background
-    const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
-    gradient.addColorStop(0, 'rgba(0, 0, 0, 0.05)');
-    gradient.addColorStop(1, 'rgba(0, 0, 0, 0.1)');
-    ctx.fillStyle = gradient;
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-  }, []);
-
-  const handleImageLoad = () => {
-    console.log('Image loaded successfully');
-    setIsLoading(false);
-    setImageError(false);
-  };
-
-  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
-    console.error('Image failed to load:', e);
-    setIsLoading(false);
-    setImageError(true);
-  };
-
-  console.log('Current image path:', optimizedImagePath);
 
   return (
     <div className="main-container" role="main">
@@ -169,20 +124,11 @@ export default function Index() {
           <h1 className="name">Tomás Pablo Korenblit</h1>
           <h2 className="title">Data Scientist</h2>
           <div className="profile-image" ref={imageRef}>
-            {/* <canvas ref={canvasRef} className={isLoading ? 'visible' : ''} /> */}
             <img 
               src={optimizedImagePath}
               alt="Tomás Korenblit" 
-              onLoad={handleImageLoad}
-              onError={handleImageError}
-              className={isLoading ? 'loading' : 'loaded'}
               draggable="false"
             />
-            {imageError && (
-              <div className="image-error">
-                Failed to load image
-              </div>
-            )}
           </div>
           
           <div className="social-icons">
@@ -237,39 +183,6 @@ export default function Index() {
                 </a>
               </div>
               
-              <div className="project-card">
-                <a href="https://koren-rev-analysis.herokuapp.com/" target="_blank" rel="noreferrer">
-                  <h3>Movie Review Sentiment Analysis</h3>
-                  <p>Text classification and sentiment analysis on IMDb reviews with regex preprocessing, TfidfVectorizer, and sklearn.</p>
-                  <div className="project-tags">
-                    <span className="tag">NLP</span>
-                    <span className="tag">Machine Learning</span>
-                    <span className="tag">Python</span>
-                  </div>
-                </a>
-              </div>
-              <div className="project-card">
-                <a href="https://koren-rev-analysis.herokuapp.com/" target="_blank" rel="noreferrer">
-                  <h3>Movie Review Sentiment Analysis</h3>
-                  <p>Text classification and sentiment analysis on IMDb reviews with regex preprocessing, TfidfVectorizer, and sklearn.</p>
-                  <div className="project-tags">
-                    <span className="tag">NLP</span>
-                    <span className="tag">Machine Learning</span>
-                    <span className="tag">Python</span>
-                  </div>
-                </a>
-              </div>
-              <div className="project-card">
-                <a href="https://koren-rev-analysis.herokuapp.com/" target="_blank" rel="noreferrer">
-                  <h3>Movie Review Sentiment Analysis</h3>
-                  <p>Text classification and sentiment analysis on IMDb reviews with regex preprocessing, TfidfVectorizer, and sklearn.</p>
-                  <div className="project-tags">
-                    <span className="tag">NLP</span>
-                    <span className="tag">Machine Learning</span>
-                    <span className="tag">Python</span>
-                  </div>
-                </a>
-              </div>
               <div className="project-card">
                 <a href="https://koren-rev-analysis.herokuapp.com/" target="_blank" rel="noreferrer">
                   <h3>Movie Review Sentiment Analysis</h3>

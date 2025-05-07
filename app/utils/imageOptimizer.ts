@@ -26,20 +26,32 @@ export async function optimizeImage(
   const optimizedFilename = `${filename}-${width}w-${quality}q.${format}`;
   const optimizedPath = path.join(CACHE_DIR, optimizedFilename);
 
+  console.log('Original image path:', originalPath);
+  console.log('Optimized image path:', optimizedPath);
+
   try {
     // Check if optimized version already exists
     await fs.access(optimizedPath);
+    console.log('Using cached optimized image');
     return `/optimized-images/${optimizedFilename}`;
   } catch {
     // If not, create optimized version
-    await sharp(originalPath)
-      .resize(width, null, {
-        withoutEnlargement: true,
-        fit: 'inside'
-      })
-      .toFormat(format, { quality })
-      .toFile(optimizedPath);
-
-    return `/optimized-images/${optimizedFilename}`;
+    console.log('Creating new optimized image');
+    try {
+      await sharp(originalPath)
+        .resize(width, null, {
+          withoutEnlargement: true,
+          fit: 'inside'
+        })
+        .toFormat(format, { quality })
+        .toFile(optimizedPath);
+      
+      console.log('Image optimization successful');
+      return `/optimized-images/${optimizedFilename}`;
+    } catch (error) {
+      console.error('Image optimization failed:', error);
+      // Return original image path as fallback
+      return `/${imagePath}`;
+    }
   }
 } 

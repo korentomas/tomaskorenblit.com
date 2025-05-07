@@ -10,7 +10,10 @@ import { ThemeProvider } from "~/context/ThemeContext";
 import styles from "./styles/global.css?url";
 
 export const links = () => [
-  { rel: "stylesheet", href: styles }
+  { rel: "stylesheet", href: styles },
+  { rel: "preconnect", href: "https://fonts.googleapis.com" },
+  { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
+  { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" }
 ];
 
 // This script needs to run before any content renders

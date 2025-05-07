@@ -8,4 +8,22 @@ installGlobals();
 
 export default defineConfig({
   plugins: [remix({ presets: [vercelPreset()] }), tsconfigPaths()],
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'vendor': ['react', 'react-dom'],
+          'theme': ['~/context/ThemeContext'],
+        }
+      }
+    },
+    chunkSizeWarningLimit: 1000,
+    minify: 'terser',
+    terserOptions: {
+      compress: {
+        drop_console: true,
+        drop_debugger: true
+      }
+    }
+  }
 });
