@@ -6,7 +6,7 @@ import {
   ScrollRestoration,
 } from "@remix-run/react";
 import { Analytics } from "@vercel/analytics/react";
-import { ThemeProvider } from "~/context/ThemeContext";
+import { ThemeProvider } from "./context/ThemeContext";
 import styles from "./styles/global.css?url";
 
 export const links = () => [

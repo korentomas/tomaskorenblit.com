@@ -1,5 +1,5 @@
 import type { MetaFunction, LoaderFunction } from "@vercel/remix";
-import { useTheme } from "~/context/ThemeContext";
+import { useTheme } from "../context/ThemeContext";
 import { useEffect, useRef } from "react";
 import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
