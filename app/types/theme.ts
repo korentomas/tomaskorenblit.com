@@ -1,8 +1,11 @@
 export type Theme = 'light' | 'dark';
+export type ColorScheme = 'blue' | 'orange';
 
 export interface ThemeContextType {
   theme: Theme;
+  colorScheme: ColorScheme;
   toggleTheme: () => void;
+  toggleColorScheme: () => void;
 }
 
 export interface ThemeProviderProps {

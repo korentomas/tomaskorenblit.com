@@ -1,37 +1,50 @@
-import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import type { Theme, ThemeContextType, ThemeProviderProps } from '~/types/theme';
+import { createContext, useContext, useState, useEffect } from 'react';
+import type { ThemeContextType, ThemeProviderProps, Theme, ColorScheme } from '~/types/theme';
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export function ThemeProvider({ children }: ThemeProviderProps) {
-  // Initialize with the server-rendered theme
-  const [theme, setTheme] = useState<Theme>(() => {
-    if (typeof document !== 'undefined') {
-      return document.documentElement.getAttribute('data-theme') as Theme || 'light';
-    }
-    return 'light';
-  });
+  const [theme, setTheme] = useState<Theme>('light');
+  const [colorScheme, setColorScheme] = useState<ColorScheme>('blue');
 
   useEffect(() => {
-    // Only run on client-side after hydration
-    const stored = localStorage.getItem('theme');
-    if (stored && stored !== theme) {
-      setTheme(stored as Theme);
-    }
+    // Load saved preferences
+    const savedTheme = localStorage.getItem('theme') as Theme;
+    const savedColorScheme = localStorage.getItem('colorScheme') as ColorScheme;
+    
+    if (savedTheme) setTheme(savedTheme);
+    if (savedColorScheme) setColorScheme(savedColorScheme);
   }, []);
 
   useEffect(() => {
-    // Only update DOM after initial hydration
+    // Update theme
     document.documentElement.setAttribute('data-theme', theme);
     localStorage.setItem('theme', theme);
   }, [theme]);
 
+  useEffect(() => {
+    // Update color scheme
+    document.documentElement.setAttribute('data-color-scheme', colorScheme);
+    localStorage.setItem('colorScheme', colorScheme);
+  }, [colorScheme]);
+
   const toggleTheme = () => {
-    setTheme(prevTheme => prevTheme === 'light' ? 'dark' : 'light');
+    setTheme(prev => prev === 'light' ? 'dark' : 'light');
+  };
+
+  const toggleColorScheme = () => {
+    setColorScheme(prev => prev === 'blue' ? 'orange' : 'blue');
+  };
+
+  const value = {
+    theme,
+    colorScheme,
+    toggleTheme,
+    toggleColorScheme
   };
 
   return (
-    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+    <ThemeContext.Provider value={value}>
       {children}
     </ThemeContext.Provider>
   );
