@@ -86,7 +86,7 @@ body {
   display: grid;
   grid-template-columns: minmax(300px, 1fr) minmax(400px, 1.2fr);
   width: 100%;
-  height: 100vh; /* Fixed height on desktop */
+  min-height: 100vh;
 }
 
 /* Left Side */
@@ -94,19 +94,27 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center; /* Center content vertically on desktop */
+  justify-content: center;
   padding: var(--container-padding);
+  padding-top: 3.5rem;
   background: var(--bg-primary);
-  position: relative;
+  position: sticky;
+  top: 0;
+  height: 100vh;
   overflow: hidden;
-  height: 100vh; /* Fixed height on desktop */
+  min-height: 0;
 }
 
 /* Profile Image */
 .profile-image {
-  width: min(90%, 360px);
+  width: min(95%, 360px);
   aspect-ratio: 4/5;
-  margin: clamp(1rem, 3vh, 2rem) 0;
+  margin: clamp(0.5rem, 2vh, 2rem) 0;
+  min-width: 100px;
+  min-height: 120px;
+  max-width: 360px;
+  max-height: 450px;
+  flex-shrink: 1;
   position: relative;
   overflow: visible;
   border-radius: 0;
@@ -195,7 +203,7 @@ body {
 
 /* Typography */
 .name {
-  font-size: clamp(2rem, 4vw, 2.8rem);
+  font-size: clamp(1.1rem, 3.5vh, 3.2rem);
   font-weight: 700;
   line-height: 1.1;
   letter-spacing: -0.02em;
@@ -207,17 +215,18 @@ body {
 }
 
 .title {
-  font-size: clamp(1.1rem, 2vw, 1.3rem);
+  font-size: clamp(0.8rem, 2vh, 1.3rem);
   color: var(--text-secondary);
-  margin-bottom: clamp(1rem, 2vh, 1.5rem);
+  margin-bottom: clamp(0.2rem, 1.5vh, 1.5rem);
   font-weight: 500;
 }
 
 /* Social Icons */
 .social-icons {
   display: flex;
-  gap: clamp(1rem, 2vw, 1.5rem);
-  margin-top: clamp(2rem, 4vh, 3rem);
+  gap: clamp(0.5rem, 2vh, 1.5rem);
+  margin-top: clamp(0.5rem, 3vh, 3rem);
+  flex-shrink: 1;
 }
 
 .social-icons a {
@@ -251,7 +260,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: clamp(1.5rem, 3vh, 2rem);
-  height: 100vh; /* Fixed height on desktop */
+  min-height: 100vh; /* Changed from height to min-height */
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
 }
@@ -467,17 +476,10 @@ body {
 @media (max-width: 1024px) {
   .split-layout {
     grid-template-columns: 1fr;
-    height: auto; /* Allow flexible height on mobile */
   }
   
   .left-side {
-    height: auto;
-    min-height: auto;
-    padding: 2rem var(--container-padding);
-    justify-content: flex-start; /* Align content to top on mobile */
-  }
-
-  .right-side {
+    position: relative;
     height: auto;
     min-height: auto;
     padding: 2rem var(--container-padding);
@@ -781,10 +783,11 @@ button:focus:not(:focus-visible) {
 /* Built With Footer */
 .built-with {
   margin-top: auto;
-  padding-top: 2rem;
+  padding-top: clamp(0.5rem, 2vh, 2rem);
   text-align: center;
   color: var(--text-tertiary);
-  font-size: 0.9rem;
+  font-size: clamp(0.7rem, 1.5vh, 0.9rem);
+  flex-shrink: 1;
 }
 
 .built-with p {
