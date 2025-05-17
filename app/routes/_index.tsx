@@ -20,23 +20,23 @@ export const loader: LoaderFunction = async () => {
 
 export const meta: MetaFunction = () => {
   return [
-    { title: "Tomás Korenblit | Data Scientist" },
-    { name: "description", content: "Data Scientist specializing in Bayesian methods and Machine Learning. Portfolio showcasing projects in data analysis, machine learning, and statistical modeling." },
-    { name: "keywords", content: "Data Science, Machine Learning, Bayesian Statistics, PyMC, Data Analysis" },
+    { title: "Tomás Korenblit | Technology Consultant" },
+    { name: "description", content: "Technology consultant and innovator specializing in end-to-end solutions, from ideation to implementation. Expert in data science, software development, and technical strategy." },
+    { name: "keywords", content: "Technology Consultant, Data Science, Software Development, Innovation, Technical Strategy, Full-Stack Development" },
     { name: "author", content: "Tomás Korenblit" },
     { name: "viewport", content: "width=device-width, initial-scale=1" },
-    { property: "og:title", content: "Tomás Korenblit | Data Scientist" },
-    { property: "og:description", content: "Data Scientist specializing in Bayesian methods and Machine Learning. Portfolio showcasing projects in data analysis, machine learning, and statistical modeling." },
+    { property: "og:title", content: "Tomás Korenblit | Technology Consultant" },
+    { property: "og:description", content: "Technology consultant and innovator specializing in end-to-end solutions, from ideation to implementation. Expert in data science, software development, and technical strategy." },
     { property: "og:type", content: "website" },
     { name: "twitter:card", content: "summary" },
-    { name: "twitter:title", content: "Tomás Korenblit | Data Scientist" },
-    { name: "twitter:description", content: "Data Scientist specializing in Bayesian methods and Machine Learning. Portfolio showcasing projects in data analysis, machine learning, and statistical modeling." },
+    { name: "twitter:title", content: "Tomás Korenblit | Technology Consultant" },
+    { name: "twitter:description", content: "Technology consultant and innovator specializing in end-to-end solutions, from ideation to implementation. Expert in data science, software development, and technical strategy." },
     { rel: "preload", as: "image", href: "/optimized-images/also_me-800w-90q.webp" }
   ];
 };
 
 export default function Index() {
-  const { theme, colorScheme, toggleTheme, toggleColorScheme } = useTheme();
+  const { theme, toggleTheme } = useTheme();
   const imageRef = useRef<HTMLDivElement>(null);
   const { optimizedImagePath } = useLoaderData<{ optimizedImagePath: string }>();
 
@@ -125,6 +125,7 @@ export default function Index() {
           <div className="left-side">
             <h1 className="name">Tomás Pablo Korenblit</h1>
             <h2 className="title">Data Scientist</h2>
+            <h3 className="subtitle">(and general tech tinkerer)</h3>
             <div className="profile-image" ref={imageRef}>
               <img
                 src={optimizedImagePath}
@@ -170,7 +171,7 @@ export default function Index() {
           {/* Right Side */}
           <div className="right-side">
             <div className="hero-text">
-              <p>I'm a Data Scientist from Buenos Aires, passionate about using technology to solve real-world problems. Whether it's building telescopes to make astronomy accessible, developing AI systems, or creating data-driven solutions, I love combining technical skills with creative problem-solving. Currently pursuing my BSc in Data Science at UNSAM while working on AI data quality at Invisible Technologies.</p>
+              <p>I'm <span className="gradient-text">Tomás</span>, a Data Scientist from Buenos Aires passionate about solving real-world problems through technology. From building telescopes to developing AI systems, I combine technical expertise with creative problem-solving. Currently pursuing my BSc in Data Science at UNSAM while working on AI data quality and causal inference projects.</p>
             </div>
 
             <div className="sections-grid">
@@ -182,7 +183,7 @@ export default function Index() {
                     <span className="status">(ongoing)</span>
                   </li>
                   <li>
-                    <span className="highlight">QA</span> @ Invisible Technologies
+                    <span className="highlight">QA & Technical Consultant</span> @ Invisible Technologies
                     <span className="status">(current)</span>
                   </li>
                 </ul>
@@ -191,10 +192,10 @@ export default function Index() {
               <section className="what-i-do">
                 <h2>Technical Focus</h2>
                 <ul>
-                  <li>LLM data quality and training workflows</li>
-                  <li>Bayesian modeling and causal inference</li>
-                  <li>Data pipeline automation and ETL systems</li>
-                  <li>Interactive data visualization and dashboards</li>
+                  <li>End-to-end solution architecture and implementation</li>
+                  <li>AI/ML systems and data quality workflows</li>
+                  <li>Full-stack development and technical consulting</li>
+                  <li>Innovation strategy and technical ideation</li>
                 </ul>
               </section>
             </div>

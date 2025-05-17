@@ -215,10 +215,19 @@ body {
 }
 
 .title {
-  font-size: clamp(0.8rem, 2vh, 1.3rem);
-  color: var(--text-secondary);
+  font-size: clamp(1.2rem, 3vh, 2rem);
+  color: var(--text-primary);
+  margin-bottom: 0.3rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.subtitle {
+  font-size: clamp(0.7rem, 1.5vh, 0.9rem);
+  color: var(--text-tertiary);
+  font-weight: 400;
+  font-style: italic;
   margin-bottom: clamp(0.2rem, 1.5vh, 1.5rem);
-  font-weight: 500;
 }
 
 /* Social Icons */
@@ -934,4 +943,11 @@ button:focus:not(:focus-visible) {
   .sections-grid {
     gap: 1rem;
   }
+}
+
+.gradient-text {
+  background: linear-gradient(to right, var(--accent-primary), var(--accent-secondary), var(--accent-primary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 600;
 } 
