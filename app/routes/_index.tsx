@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { optimizeImage } from "~/utils/imageOptimizer";
+import Navigation from "~/components/Navigation";
 
 export const loader: LoaderFunction = async () => {
   const optimizedImagePath = await optimizeImage('also_me.png', {
@@ -20,17 +21,17 @@ export const loader: LoaderFunction = async () => {
 
 export const meta: MetaFunction = () => {
   return [
-    { title: "Tomás Korenblit | Technology Consultant" },
-    { name: "description", content: "Technology consultant and innovator specializing in end-to-end solutions, from ideation to implementation. Expert in data science, software development, and technical strategy." },
-    { name: "keywords", content: "Technology Consultant, Data Science, Software Development, Innovation, Technical Strategy, Full-Stack Development" },
+    { title: "Tomás Korenblit | Partner at Ascendancy" },
+    { name: "description", content: "Partner, Data Scientist & Software Engineer at Ascendancy. Building AI-native relationship intelligence systems that compound network capital. Expertise in graph systems, machine learning, and full-stack development." },
+    { name: "keywords", content: "Network Capital, Graph Systems, Data Science, Software Engineering, AI Systems, Relationship Intelligence, Full-Stack Development" },
     { name: "author", content: "Tomás Korenblit" },
     { name: "viewport", content: "width=device-width, initial-scale=1" },
-    { property: "og:title", content: "Tomás Korenblit | Technology Consultant" },
-    { property: "og:description", content: "Technology consultant and innovator specializing in end-to-end solutions, from ideation to implementation. Expert in data science, software development, and technical strategy." },
+    { property: "og:title", content: "Tomás Korenblit | Partner at Ascendancy" },
+    { property: "og:description", content: "Building AI-native relationship intelligence systems that compound network capital. Expertise in graph systems, machine learning, and full-stack development." },
     { property: "og:type", content: "website" },
     { name: "twitter:card", content: "summary" },
-    { name: "twitter:title", content: "Tomás Korenblit | Technology Consultant" },
-    { name: "twitter:description", content: "Technology consultant and innovator specializing in end-to-end solutions, from ideation to implementation. Expert in data science, software development, and technical strategy." },
+    { name: "twitter:title", content: "Tomás Korenblit | Partner at Ascendancy" },
+    { name: "twitter:description", content: "Building AI-native relationship intelligence systems that compound network capital." },
     { rel: "preload", as: "image", href: "/optimized-images/also_me-800w-90q.webp" }
   ];
 };
@@ -90,9 +91,40 @@ export default function Index() {
     };
   }, []);
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: "Tomás Pablo Korenblit",
+    jobTitle: "Partner, Data Scientist & Software Engineer",
+    worksFor: {
+      "@type": "Organization",
+      name: "Ascendancy"
+    },
+    url: "https://tomaskorenblit.com",
+    sameAs: [
+      "https://github.com/tomaskorenblit",
+      "https://linkedin.com/in/tomaskorenblit"
+    ],
+    knowsAbout: [
+      "Graph Systems",
+      "Network Capital",
+      "Data Science",
+      "Machine Learning",
+      "Full-Stack Development",
+      "Relationship Intelligence"
+    ],
+    description: "Building AI-native relationship intelligence systems that compound network capital at scale."
+  };
+
   return (
     <div className="min-h-screen bg-bg-primary text-text-primary transition-colors duration-300">
-      <div className="max-w-4xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <Navigation />
+
+      <div className="max-w-4xl mx-auto px-4 py-12 sm:px-6 lg:px-8 main-content-with-nav">
         <div className="theme-toggle flex justify-end gap-2 mb-8">
           <button
             onClick={toggleTheme}
@@ -124,8 +156,8 @@ export default function Index() {
           {/* Left Side */}
           <div className="left-side">
             <h1 className="name">Tomás Pablo Korenblit</h1>
-            <h2 className="title">Data Scientist</h2>
-            <h3 className="subtitle">(and general tech tinkerer)</h3>
+            <h2 className="title">Partner at Ascendancy</h2>
+            <h3 className="subtitle">Data Scientist & Software Engineer</h3>
             <div className="profile-image" ref={imageRef}>
               <img
                 src={optimizedImagePath}
@@ -171,7 +203,7 @@ export default function Index() {
           {/* Right Side */}
           <div className="right-side">
             <div className="hero-text">
-              <p>I'm <span className="gradient-text">Tomás</span>, a Data Scientist from Buenos Aires passionate about solving real-world problems through technology. From building telescopes to developing AI systems, I combine technical expertise with creative problem-solving. Currently pursuing my BSc in Data Science at UNSAM while working on AI data quality and causal inference projects.</p>
+              <p>I'm <span className="gradient-text">Tomás</span>, building AI-native systems that turn relationship data into strategic advantage. At Ascendancy, we're creating a new category: relationship intelligence infrastructure that compounds network capital at scale. From graph algorithms to full-stack applications, I architect systems where human connection drives measurable business outcomes.</p>
             </div>
 
             <div className="sections-grid">
@@ -179,12 +211,12 @@ export default function Index() {
                 <h2>What I'm up to</h2>
                 <ul>
                   <li>
-                    <span className="highlight">BSc. Data Science</span> @ UNSAM
-                    <span className="status">(ongoing)</span>
+                    <span className="highlight">Partner, Data Scientist & Software Engineer</span> @ Ascendancy
+                    <span className="status">(current)</span>
                   </li>
                   <li>
-                    <span className="highlight">QA & Technical Consultant</span> @ Invisible Technologies
-                    <span className="status">(current)</span>
+                    <span className="highlight">BSc. Data Science</span> @ UNSAM
+                    <span className="status">(ongoing)</span>
                   </li>
                 </ul>
               </section>
@@ -192,65 +224,64 @@ export default function Index() {
               <section className="what-i-do">
                 <h2>Technical Focus</h2>
                 <ul>
-                  <li>End-to-end solution architecture and implementation</li>
-                  <li>AI/ML systems and data quality workflows</li>
-                  <li>Full-stack development and technical consulting</li>
-                  <li>Innovation strategy and technical ideation</li>
+                  <li>Graph systems & relationship intelligence platforms</li>
+                  <li>ML/AI pipelines for network capital optimization</li>
+                  <li>Full-stack development (React, TypeScript, Python)</li>
+                  <li>Data architecture for high-dimensional relationship data</li>
                 </ul>
               </section>
             </div>
 
             <section className="projects">
-              <h2>Featured Projects</h2>
+              <h2>Selected Work</h2>
               <div className="project-grid">
+                <div className="project-card">
+                  <div>
+                    <h3>Ascendancy Platform</h3>
+                    <p>Building AI-native relationship intelligence infrastructure that turns network data into strategic advantage. Graph-based architecture processes multi-source relationship data to surface high-value connections, optimize introduction paths, and compound network capital at scale.</p>
+                    <div className="project-tags">
+                      <span className="tag">Graph Systems</span>
+                      <span className="tag">ML Pipelines</span>
+                      <span className="tag">Full-Stack</span>
+                      <span className="tag">TypeScript</span>
+                    </div>
+                  </div>
+                </div>
+
                 <div className="project-card">
                   <a href="https://easy-fix-nine.vercel.app/" target="_blank" rel="noreferrer">
                     <h3>EasyFix</h3>
-                    <p>Sports fixture generation service with intelligent constraint handling for venue availability, resource optimization, and weather conditions. Built with modern web technologies and deployed on Vercel.</p>
+                    <p>Constraint optimization system for sports scheduling. Handles complex multi-objective problems (venue availability, resource allocation, weather conditions) using custom algorithms. Reduced manual scheduling time by 90% for club managers.</p>
                     <div className="project-tags">
                       <span className="tag">Optimization</span>
-                      <span className="tag">Scheduling</span>
-                      <span className="tag">Web App</span>
+                      <span className="tag">Algorithms</span>
+                      <span className="tag">React</span>
                       <span className="tag">Vercel</span>
                     </div>
                   </a>
                 </div>
 
                 <div className="project-card">
-                  <a href="https://boston-crime-deploy.herokuapp.com/" target="_blank" rel="noreferrer">
-                    <h3>Boston Crime Analysis</h3>
-                    <p>Interactive visualization dashboard for exploring Boston crime data. Built with Pandas for data processing and Plotly with Streamlit for interactive visualization.</p>
-                    <div className="project-tags">
-                      <span className="tag">Data Analysis</span>
-                      <span className="tag">Visualization</span>
-                      <span className="tag">Python</span>
-                      <span className="tag">Streamlit</span>
-                    </div>
-                  </a>
-                </div>
-
-                <div className="project-card">
-                  <a href="https://koren-rev-analysis.herokuapp.com/" target="_blank" rel="noreferrer">
-                    <h3>Movie Review Sentiment Analysis</h3>
-                    <p>Text classification and sentiment analysis on IMDb reviews with regex preprocessing, TfidfVectorizer, and scikit-learn machine learning models.</p>
-                    <div className="project-tags">
-                      <span className="tag">NLP</span>
-                      <span className="tag">Machine Learning</span>
-                      <span className="tag">Python</span>
-                      <span className="tag">Flask</span>
-                    </div>
-                  </a>
-                </div>
-
-                <div className="project-card">
                   <a href="https://drive.google.com/drive/folders/1aDnCO67zldJ9amt-db_Z7r7aldit_hnA?usp=sharing" target="_blank" rel="noreferrer">
-                    <h3>UNICOPE</h3>
-                    <p>3D printing low-cost telescopes to make astronomy as accessible as possible. Designed components for focusers, mounts, and mirror supports with the goal of making, selling and donating telescopes worldwide. Project includes complete design files for DIY replication.</p>
+                    <h3>UNICOPE Telescopes</h3>
+                    <p>Open-source 3D-printed telescope system designed for accessibility. Complete CAD designs for mirror supports, focusers, and mounts. Goal: Make astronomy accessible worldwide through low-cost, DIY-friendly designs that anyone can replicate.</p>
                     <div className="project-tags">
-                      <span className="tag">Hardware</span>
+                      <span className="tag">Hardware Design</span>
                       <span className="tag">CAD</span>
                       <span className="tag">Open Source</span>
                       <span className="tag">3D Printing</span>
+                    </div>
+                  </a>
+                </div>
+
+                <div className="project-card">
+                  <a href="https://github.com/tomaskorenblit" target="_blank" rel="noreferrer">
+                    <h3>More on GitHub</h3>
+                    <p>Additional projects including data visualization dashboards, ML experiments, and technical explorations. From Bayesian causal inference to NLP pipelines—always learning, always building.</p>
+                    <div className="project-tags">
+                      <span className="tag">Data Science</span>
+                      <span className="tag">Python</span>
+                      <span className="tag">Experiments</span>
                     </div>
                   </a>
                 </div>
@@ -261,30 +292,39 @@ export default function Index() {
               <h2>Technical Stack</h2>
               <div className="skills-grid">
                 <div className="skill-category">
-                  <h3>Data Science</h3>
+                  <h3>Graph & Data Systems</h3>
                   <div className="skill-tags">
-                    <span className="tag">Bayesian Statistics</span>
-                    <span className="tag">LLM Workflows</span>
-                    <span className="tag">PyMC</span>
+                    <span className="tag">Graph Algorithms</span>
+                    <span className="tag">NetworkX</span>
+                    <span className="tag">Neo4j</span>
+                    <span className="tag">SQL/NoSQL</span>
+                  </div>
+                </div>
+                <div className="skill-category">
+                  <h3>ML & AI</h3>
+                  <div className="skill-tags">
+                    <span className="tag">LLM Systems</span>
                     <span className="tag">Scikit-Learn</span>
+                    <span className="tag">PyMC</span>
+                    <span className="tag">Bayesian Methods</span>
                   </div>
                 </div>
                 <div className="skill-category">
-                  <h3>Development</h3>
+                  <h3>Full-Stack Development</h3>
                   <div className="skill-tags">
+                    <span className="tag">TypeScript</span>
+                    <span className="tag">React</span>
+                    <span className="tag">Remix</span>
                     <span className="tag">Python</span>
-                    <span className="tag">SQL</span>
-                    <span className="tag">Flask</span>
-                    <span className="tag">Git</span>
                   </div>
                 </div>
                 <div className="skill-category">
-                  <h3>Tools & Platforms</h3>
+                  <h3>Infrastructure</h3>
                   <div className="skill-tags">
-                    <span className="tag">PowerBI</span>
-                    <span className="tag">Google Cloud</span>
                     <span className="tag">Vercel</span>
                     <span className="tag">Docker</span>
+                    <span className="tag">Google Cloud</span>
+                    <span className="tag">Git</span>
                   </div>
                 </div>
               </div>
