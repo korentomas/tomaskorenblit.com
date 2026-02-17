@@ -1,6 +1,6 @@
 import { getAllPosts } from "~/utils/blog.server";
 
-const SITE_URL = "https://tomaskorenblit.com";
+const SITE_URL = "https://korenblit.vercel.app";
 
 export const loader = () => {
   const posts = getAllPosts();

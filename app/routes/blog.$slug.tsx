@@ -26,7 +26,7 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
   });
 };
 
-const SITE_URL = "https://tomaskorenblit.com";
+const SITE_URL = "https://korenblit.vercel.app";
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
   if (!data) return [{ title: "Tomás Korenblit" }];

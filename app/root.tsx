@@ -8,7 +8,7 @@ import {
 import { Analytics } from "@vercel/analytics/react";
 import styles from "./styles/global.css?url";
 
-const SITE_URL = "https://tomaskorenblit.com";
+const SITE_URL = "https://korenblit.vercel.app";
 
 export const links = () => [
   { rel: "stylesheet", href: styles },
