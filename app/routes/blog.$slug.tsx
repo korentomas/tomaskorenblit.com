@@ -26,11 +26,29 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
   });
 };
 
+const SITE_URL = "https://tomaskorenblit.com";
+
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
-  if (!data) return [{ title: "Tomas Korenblit" }];
+  if (!data) return [{ title: "Tomás Korenblit" }];
+  const { frontmatter, slug } = data;
+  const title = `${frontmatter.title} — Tomás Korenblit`;
+  const url = `${SITE_URL}/blog/${slug}`;
+  const image = frontmatter.cover
+    ? `${SITE_URL}${frontmatter.cover}`
+    : `${SITE_URL}/og-image.png`;
+
   return [
-    { title: `${data.frontmatter.title} — Tomas Korenblit` },
-    { name: "description", content: data.frontmatter.excerpt },
+    { title },
+    { name: "description", content: frontmatter.excerpt },
+    { property: "og:type", content: "article" },
+    { property: "og:url", content: url },
+    { property: "og:title", content: frontmatter.title },
+    { property: "og:description", content: frontmatter.excerpt },
+    { property: "og:image", content: image },
+    { name: "twitter:card", content: "summary_large_image" },
+    { name: "twitter:title", content: frontmatter.title },
+    { name: "twitter:description", content: frontmatter.excerpt },
+    { name: "twitter:image", content: image },
   ];
 };
 

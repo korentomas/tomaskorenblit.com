@@ -20,12 +20,20 @@ export const loader = async () => {
   return json({ posts });
 };
 
+const SITE_URL = "https://tomaskorenblit.com";
+
 export const meta: MetaFunction = () => [
   { title: "Tomás Korenblit" },
-  {
-    name: "description",
-    content: "Writing and work by Tomás Korenblit.",
-  },
+  { name: "description", content: "Writing and work by Tomás Korenblit." },
+  { property: "og:type", content: "website" },
+  { property: "og:url", content: SITE_URL },
+  { property: "og:title", content: "Tomás Korenblit" },
+  { property: "og:description", content: "Writing and work by Tomás Korenblit." },
+  { property: "og:image", content: `${SITE_URL}/og-image.png` },
+  { name: "twitter:card", content: "summary_large_image" },
+  { name: "twitter:title", content: "Tomás Korenblit" },
+  { name: "twitter:description", content: "Writing and work by Tomás Korenblit." },
+  { name: "twitter:image", content: `${SITE_URL}/og-image.png` },
 ];
 
 export default function Index() {

@@ -8,8 +8,13 @@ import {
 import { Analytics } from "@vercel/analytics/react";
 import styles from "./styles/global.css?url";
 
+const SITE_URL = "https://tomaskorenblit.com";
+
 export const links = () => [
   { rel: "stylesheet", href: styles },
+  { rel: "icon", href: "/favicon.ico", sizes: "32x32" },
+  { rel: "apple-touch-icon", href: "/me.png" },
+  { rel: "canonical", href: SITE_URL },
 ];
 
 export default function App() {
