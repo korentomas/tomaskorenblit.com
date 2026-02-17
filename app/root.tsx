@@ -5,7 +5,7 @@ import {
   Scripts,
   ScrollRestoration,
 } from "@remix-run/react";
-import { Analytics } from "@vercel/analytics/react";
+import { Analytics } from "@vercel/analytics/remix";
 import styles from "./styles/global.css?url";
 
 const SITE_URL = "https://korenblit.vercel.app";
