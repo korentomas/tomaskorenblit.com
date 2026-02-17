@@ -144,6 +144,24 @@ export default function Index() {
   const hero = posts[0];
   const rest = posts.slice(1, 5);
 
+  const TilePreview = ({ post, height }: { post: BlogPost; height: string }) => {
+    if (post.shader) {
+      return (
+        <div className="tile-preview">
+          <ShaderBanner shader={post.shader} colors={post.shaderColors} height={height} />
+        </div>
+      );
+    }
+    if (post.cover) {
+      return (
+        <div className="tile-preview">
+          <img src={post.cover} alt="" loading="lazy" style={{ width: "100%", height, objectFit: "cover" }} />
+        </div>
+      );
+    }
+    return null;
+  };
+
   return (
     <div className={inverted ? "inverted" : ""} style={{ transition: "filter 0.5s ease" }}>
       <motion.div
@@ -224,6 +242,7 @@ export default function Index() {
               background: `linear-gradient(135deg, ${hero.accent || "var(--accent)"}11 0%, var(--tile-bg) 40%)`,
             } as React.CSSProperties}
           >
+            <TilePreview post={hero} height="80px" />
             <div>
               <span className="tile-type" style={{ color: hero.accent || "var(--text-secondary)" }}>{hero.type}</span>
               <h2 className="tile-title">{hero.title}</h2>
@@ -254,6 +273,7 @@ export default function Index() {
               background: `linear-gradient(135deg, ${post.accent || "var(--accent)"}11 0%, var(--tile-bg) 40%)`,
             } as React.CSSProperties}
           >
+            <TilePreview post={post} height="48px" />
             <div>
               <span className="tile-type" style={{ color: post.accent || "var(--text-secondary)" }}>{post.type}</span>
               <h2 className="tile-title">{post.title}</h2>
@@ -323,6 +343,11 @@ export default function Index() {
                       colors={postMeta.shaderColors}
                       height="180px"
                     />
+                  </div>
+                )}
+                {postMeta?.cover && !postMeta?.shader && (
+                  <div style={{ marginBottom: "2rem", borderRadius: "var(--tile-radius)", overflow: "hidden" }}>
+                    <img src={postMeta.cover} alt="" style={{ width: "100%", height: "180px", objectFit: "cover", display: "block" }} />
                   </div>
                 )}
                 {postMeta && (

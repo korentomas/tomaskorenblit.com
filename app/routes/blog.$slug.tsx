@@ -65,6 +65,11 @@ export default function BlogPost() {
             />
           </div>
         )}
+        {frontmatter.cover && !frontmatter.shader && (
+          <div style={{ marginBottom: "2rem", borderRadius: "var(--tile-radius)", overflow: "hidden" }}>
+            <img src={frontmatter.cover} alt="" style={{ width: "100%", height: "180px", objectFit: "cover", display: "block" }} />
+          </div>
+        )}
         <header className="post-header">
           <div className="post-meta">
             {frontmatter.type} ·{" "}

@@ -167,6 +167,14 @@ body.scroll-locked {
   height: 20px;
 }
 
+/* Tile preview banner */
+.tile-preview {
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 0.75rem;
+  flex-shrink: 0;
+}
+
 /* Blog tile content */
 .tile-type {
   font-size: 0.75rem;
@@ -353,6 +361,14 @@ body.scroll-locked {
 .post-content pre code {
   background: none;
   padding: 0;
+}
+
+.post-content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin: 1.5rem 0;
+  display: block;
 }
 
 /* Responsive */
