@@ -23,6 +23,18 @@
   --tile-gap: 16px;
 }
 
+[data-theme="dark"] {
+  --bg: #1C1B1A;
+  --text: #E8E6E1;
+  --text-secondary: #8A8A85;
+  --accent: #6BB3F0;
+
+  --tile-bg: rgba(40, 38, 36, 0.65);
+  --tile-border: 1px solid rgba(255, 255, 255, 0.08);
+  --tile-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+  --tile-shadow-hover: 0 4px 20px rgba(107, 179, 240, 0.12);
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -37,6 +49,7 @@ body {
   background: var(--bg);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 body.scroll-locked {
@@ -70,7 +83,7 @@ body.scroll-locked {
   flex-direction: column;
   justify-content: space-between;
   cursor: default;
-  transition: box-shadow 0.2s ease-out, transform 0.2s ease-out;
+  transition: box-shadow 0.2s ease-out, transform 0.2s ease-out, background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .tile--clickable {
@@ -455,4 +468,31 @@ button:focus:not(:focus-visible) {
 
 .comments-section iframe {
   width: 100% !important;
+}
+
+/* Theme toggle */
+.theme-toggle {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 150;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: var(--tile-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: var(--tile-shadow);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+  transition: color 0.2s ease-out, box-shadow 0.2s ease-out, background 0.3s ease;
+}
+
+.theme-toggle:hover {
+  color: var(--text);
+  box-shadow: var(--tile-shadow-hover);
 }
