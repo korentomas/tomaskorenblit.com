@@ -474,6 +474,22 @@ button:focus:not(:focus-visible) {
   z-index: 1;
 }
 
+/* Error boundary */
+.error-container {
+  max-width: 680px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: var(--tile-bg);
+  border-radius: var(--tile-radius);
+  color: var(--text);
+}
+
+.error-container details {
+  margin-top: 1rem;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
 .comments-section {
   margin-top: 3rem;
   padding-top: 2rem;

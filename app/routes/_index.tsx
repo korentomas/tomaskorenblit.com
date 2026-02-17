@@ -30,10 +30,24 @@ export const meta: MetaFunction = () => [
   { property: "og:title", content: "Tomás Korenblit" },
   { property: "og:description", content: "Writing and work by Tomás Korenblit." },
   { property: "og:image", content: `${SITE_URL}/og-image.png` },
+  { property: "og:image:width", content: "1200" },
+  { property: "og:image:height", content: "630" },
   { name: "twitter:card", content: "summary_large_image" },
   { name: "twitter:title", content: "Tomás Korenblit" },
   { name: "twitter:description", content: "Writing and work by Tomás Korenblit." },
   { name: "twitter:image", content: `${SITE_URL}/og-image.png` },
+  {
+    "script:ld+json": JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "Person",
+      name: "Tomás Korenblit",
+      url: SITE_URL,
+      sameAs: [
+        "https://github.com/korentomas",
+        "https://linkedin.com/in/tomaskorenblit",
+      ],
+    }),
+  },
 ];
 
 export default function Index() {
@@ -163,7 +177,7 @@ export default function Index() {
     if (post.cover) {
       return (
         <div className="tile-preview">
-          <img src={post.cover} alt="" loading="lazy" style={{ width: "100%", height, objectFit: "cover" }} />
+          <img src={post.cover} alt={post.title} loading="lazy" style={{ width: "100%", height, objectFit: "cover" }} />
         </div>
       );
     }
@@ -243,7 +257,7 @@ export default function Index() {
             onClick={() => openPost(hero.slug)}
             role="button"
             tabIndex={0}
-            onKeyDown={(e) => e.key === "Enter" && openPost(hero.slug)}
+            onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && openPost(hero.slug)}
             style={{
               "--tile-accent": hero.accent || "var(--accent)",
               borderLeft: `3px solid ${hero.accent || "var(--accent)"}`,
@@ -274,7 +288,7 @@ export default function Index() {
             onClick={() => openPost(post.slug)}
             role="button"
             tabIndex={0}
-            onKeyDown={(e) => e.key === "Enter" && openPost(post.slug)}
+            onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && openPost(post.slug)}
             style={{
               "--tile-accent": post.accent || "var(--accent)",
               borderLeft: `3px solid ${post.accent || "var(--accent)"}`,
@@ -355,7 +369,7 @@ export default function Index() {
                 )}
                 {postMeta?.cover && !postMeta?.shader && (
                   <div style={{ marginBottom: "2rem", borderRadius: "var(--tile-radius)", overflow: "hidden" }}>
-                    <img src={postMeta.cover} alt="" style={{ width: "100%", height: "180px", objectFit: "cover", display: "block" }} />
+                    <img src={postMeta.cover} alt={postMeta.title} style={{ width: "100%", height: "180px", objectFit: "cover", display: "block" }} />
                   </div>
                 )}
                 {postMeta && (

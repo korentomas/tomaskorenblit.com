@@ -10,9 +10,12 @@ export function Comments({ slug }: CommentsProps) {
   useEffect(() => {
     if (!ref.current) return;
 
-    // Clean up any existing giscus instance
     const existing = ref.current.querySelector("iframe");
     if (existing) existing.remove();
+
+    const theme = document.documentElement.getAttribute("data-theme") === "dark"
+      ? "dark_dimmed"
+      : "light_tritanopia";
 
     const script = document.createElement("script");
     script.src = "https://giscus.app/client.js";
@@ -26,7 +29,7 @@ export function Comments({ slug }: CommentsProps) {
     script.setAttribute("data-reactions-enabled", "1");
     script.setAttribute("data-emit-metadata", "0");
     script.setAttribute("data-input-position", "top");
-    script.setAttribute("data-theme", "light_tritanopia");
+    script.setAttribute("data-theme", theme);
     script.setAttribute("data-lang", "en");
     script.setAttribute("data-loading", "lazy");
     script.crossOrigin = "anonymous";
@@ -44,5 +47,7 @@ export function Comments({ slug }: CommentsProps) {
     };
   }, [slug]);
 
-  return <div ref={ref} className="comments-section" />;
+  return (
+    <div ref={ref} className="comments-section" role="region" aria-label="Comments" />
+  );
 }

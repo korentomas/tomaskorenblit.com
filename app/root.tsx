@@ -17,6 +17,12 @@ export const links = () => [
   { rel: "canonical", href: SITE_URL },
 ];
 
+export const meta = () => [
+  { name: "author", content: "Tomás Korenblit" },
+  { name: "theme-color", content: "#F7F6F3" },
+  { name: "robots", content: "index, follow" },
+];
+
 export default function App() {
   return (
     <html lang="en">

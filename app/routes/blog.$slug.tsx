@@ -45,10 +45,27 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
     { property: "og:title", content: frontmatter.title },
     { property: "og:description", content: frontmatter.excerpt },
     { property: "og:image", content: image },
+    { property: "og:image:width", content: "1200" },
+    { property: "og:image:height", content: "630" },
     { name: "twitter:card", content: "summary_large_image" },
     { name: "twitter:title", content: frontmatter.title },
     { name: "twitter:description", content: frontmatter.excerpt },
     { name: "twitter:image", content: image },
+    { tagName: "link", rel: "canonical", href: url },
+    {
+      "script:ld+json": JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        headline: frontmatter.title,
+        description: frontmatter.excerpt,
+        datePublished: frontmatter.date,
+        url,
+        author: {
+          "@type": "Person",
+          name: "Tomás Korenblit",
+        },
+      }),
+    },
   ];
 };
 
@@ -85,7 +102,7 @@ export default function BlogPost() {
         )}
         {frontmatter.cover && !frontmatter.shader && (
           <div style={{ marginBottom: "2rem", borderRadius: "var(--tile-radius)", overflow: "hidden" }}>
-            <img src={frontmatter.cover} alt="" style={{ width: "100%", height: "180px", objectFit: "cover", display: "block" }} />
+            <img src={frontmatter.cover} alt={frontmatter.title} style={{ width: "100%", height: "180px", objectFit: "cover", display: "block" }} />
           </div>
         )}
         <header className="post-header">
