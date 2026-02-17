@@ -213,15 +213,20 @@ export default function Index() {
         {/* Hero blog tile — latest post */}
         {hero && (
           <motion.div
-            className="tile tile--hero tile--clickable"
+            className="tile tile--hero tile--clickable tile--colored"
             layoutId={`tile-${hero.slug}`}
             onClick={() => openPost(hero.slug)}
             role="button"
             tabIndex={0}
             onKeyDown={(e) => e.key === "Enter" && openPost(hero.slug)}
+            style={{
+              "--tile-accent": hero.accent || "var(--accent)",
+              borderLeft: `3px solid ${hero.accent || "var(--accent)"}`,
+              background: `linear-gradient(135deg, ${hero.accent || "var(--accent)"}11 0%, var(--tile-bg) 40%)`,
+            } as React.CSSProperties}
           >
             <div>
-              <span className="tile-type">{hero.type}</span>
+              <span className="tile-type" style={{ color: hero.accent || "var(--text-secondary)" }}>{hero.type}</span>
               <h2 className="tile-title">{hero.title}</h2>
               <p className="tile-excerpt">{hero.excerpt}</p>
             </div>
@@ -238,15 +243,20 @@ export default function Index() {
         {rest.map((post) => (
           <motion.div
             key={post.slug}
-            className="tile tile--small tile--clickable"
+            className="tile tile--small tile--clickable tile--colored"
             layoutId={`tile-${post.slug}`}
             onClick={() => openPost(post.slug)}
             role="button"
             tabIndex={0}
             onKeyDown={(e) => e.key === "Enter" && openPost(post.slug)}
+            style={{
+              "--tile-accent": post.accent || "var(--accent)",
+              borderLeft: `3px solid ${post.accent || "var(--accent)"}`,
+              background: `linear-gradient(135deg, ${post.accent || "var(--accent)"}11 0%, var(--tile-bg) 40%)`,
+            } as React.CSSProperties}
           >
             <div>
-              <span className="tile-type">{post.type}</span>
+              <span className="tile-type" style={{ color: post.accent || "var(--text-secondary)" }}>{post.type}</span>
               <h2 className="tile-title">{post.title}</h2>
               <p className="tile-excerpt">{post.excerpt}</p>
             </div>
@@ -299,6 +309,9 @@ export default function Index() {
                   type: "spring",
                   stiffness: 200,
                   damping: 30,
+                }}
+                style={{
+                  borderTop: `3px solid ${postMeta?.accent || "var(--accent)"}`,
                 }}
               >
                 {postMeta?.shader && (

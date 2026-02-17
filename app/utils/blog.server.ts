@@ -6,6 +6,7 @@ export interface BlogPost {
   excerpt: string;
   shader?: string; // "mesh-gradient" | "neuro-noise" | "dot-orbit" | etc.
   shaderColors?: string[]; // custom colors for the shader
+  accent?: string; // unique tile color, e.g. "#4A90D9"
 }
 
 // Import all MDX files from the blog directory

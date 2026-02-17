@@ -45,7 +45,7 @@ export default function BlogPost() {
 
   return (
     <div className="post-overlay" style={{ position: "relative" }}>
-      <article className="post-expanded">
+      <article className="post-expanded" style={{ borderTop: `3px solid ${frontmatter.accent || "var(--accent)"}` }}>
         {frontmatter.shader && (
           <div style={{ marginBottom: "2rem", borderRadius: "var(--tile-radius)", overflow: "hidden" }}>
             <ShaderBanner

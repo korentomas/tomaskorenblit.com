@@ -95,6 +95,15 @@ body.scroll-locked {
   transform: scale(1.015);
 }
 
+/* Colored tiles — each tile has its own accent */
+.tile--colored {
+  transition: box-shadow 0.2s ease-out, transform 0.2s ease-out, background-color 0.3s ease, border-color 0.3s ease, border-left-color 0.2s ease;
+}
+
+.tile--colored:hover {
+  box-shadow: 0 4px 24px color-mix(in srgb, var(--tile-accent, var(--accent)) 15%, transparent);
+}
+
 /* Identity tile — spans 1 column, 2 rows */
 .tile--identity {
   grid-column: 1 / 2;
