@@ -197,13 +197,27 @@ export default function Index() {
   const getHue = (post: BlogPost) => post.hue ?? slugToHue(post.slug);
 
   // Bento size: hero is tall, essays are wide, notes are 1x1
-  const tileSize = (post: BlogPost, index: number): "tall" | "wide" | "small" => {
-    if (index === 0) return "tall";
+  const tileSize = (post: BlogPost): "wide" | "tall" | "small" => {
+    if (post.layout) return post.layout;
     if (post.type === "essay") return "wide";
     return "small";
   };
 
   const visiblePosts = posts.slice(0, 5);
+
+  // Inline content for tall tiles
+  const TallTileBody = ({ slug }: { slug: string }) => {
+    const [Content, setContent] = useState<React.ComponentType | null>(null);
+    useEffect(() => {
+      import(`../blog/${slug}.mdx`).then((mod) => setContent(() => mod.default));
+    }, [slug]);
+    if (!Content) return null;
+    return (
+      <div className="tile-body">
+        <Content components={mdxComponents} />
+      </div>
+    );
+  };
 
   const TilePreview = ({ post, height }: { post: BlogPost; height: string }) => {
     if (post.shader) {
@@ -302,7 +316,7 @@ export default function Index() {
 
         {/* Blog tiles — sized by type */}
         {visiblePosts.map((post, i) => {
-          const size = tileSize(post, i);
+          const size = tileSize(post);
           return (
             <motion.div
               key={post.slug}
@@ -318,7 +332,16 @@ export default function Index() {
               <div>
                 <span className="tile-type">{post.type}</span>
                 <h2 className="tile-title">{post.title}</h2>
-                <p className="tile-excerpt">{post.excerpt}</p>
+                {size === "tall" ? (
+                  <div className="tile-inline-content">
+                    <TallTileBody slug={post.slug} />
+                    <div className="tile-inline-fade">
+                      <span className="tile-read-more">Read more</span>
+                    </div>
+                  </div>
+                ) : (
+                  <p className="tile-excerpt">{post.excerpt}</p>
+                )}
               </div>
               <span className="tile-date">
                 {new Date(post.date).toLocaleDateString("en-US", {

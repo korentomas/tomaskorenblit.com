@@ -8,6 +8,7 @@ export interface BlogPost {
   shaderColors?: string[]; // custom colors for the shader
   hue?: number; // oklch hue 0-360, auto-generated from slug if omitted
   cover?: string; // cover image path, e.g. "/blog/my-image.jpg"
+  layout?: "wide" | "tall" | "small"; // override tile size in bento grid
 }
 
 // Import all MDX files from the blog directory

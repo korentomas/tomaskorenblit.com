@@ -60,7 +60,7 @@ body.scroll-locked {
 .bento {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  grid-auto-rows: minmax(180px, 1fr);
+  grid-auto-rows: auto;
   grid-auto-flow: dense;
   gap: var(--tile-gap);
   max-width: 960px;
@@ -260,6 +260,39 @@ body.scroll-locked {
   color: var(--text-secondary);
   font-size: 0.95rem;
   line-height: 1.4;
+}
+
+/* Tall tile inline content */
+.tile-inline-content {
+  position: relative;
+  overflow: hidden;
+  max-height: 280px;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: var(--text-secondary);
+}
+
+.tile-inline-content p {
+  margin-bottom: 0.75rem;
+}
+
+.tile-inline-fade {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background: linear-gradient(to bottom, transparent, var(--tile-bg));
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 4px;
+}
+
+.tile-read-more {
+  font-size: 0.85rem;
+  color: var(--accent);
+  font-style: italic;
 }
 
 .tile-date {
