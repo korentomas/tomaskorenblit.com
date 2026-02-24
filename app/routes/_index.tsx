@@ -205,17 +205,30 @@ export default function Index() {
 
   const visiblePosts = posts.slice(0, 5);
 
-  // Inline content for tall tiles
-  const TallTileBody = ({ slug }: { slug: string }) => {
+  // Inline content for tall tiles — detects overflow for "Read more"
+  const TallTileContent = ({ slug }: { slug: string }) => {
     const [Content, setContent] = useState<React.ComponentType | null>(null);
+    const [overflows, setOverflows] = useState(false);
+    const contentRef = useRef<HTMLDivElement>(null);
     useEffect(() => {
       import(`../blog/${slug}.mdx`).then((mod) => setContent(() => mod.default));
     }, [slug]);
-    if (!Content) return null;
+    useEffect(() => {
+      if (contentRef.current) {
+        setOverflows(contentRef.current.scrollHeight > contentRef.current.clientHeight);
+      }
+    }, [Content]);
     return (
-      <div className="tile-body">
-        <Content components={mdxComponents} />
-      </div>
+      <>
+        <div className="tile-inline-content" ref={contentRef}>
+          {Content && <Content components={mdxComponents} />}
+        </div>
+        {overflows && (
+          <div className="tile-inline-fade">
+            <span className="tile-read-more">Read more</span>
+          </div>
+        )}
+      </>
     );
   };
 
@@ -332,17 +345,11 @@ export default function Index() {
               <div>
                 <span className="tile-type">{post.type}</span>
                 <h2 className="tile-title">{post.title}</h2>
-                {size === "tall" ? (
-                  <div className="tile-inline-content">
-                    <TallTileBody slug={post.slug} />
-                    <div className="tile-inline-fade">
-                      <span className="tile-read-more">Read more</span>
-                    </div>
-                  </div>
-                ) : (
+                {size !== "tall" && (
                   <p className="tile-excerpt">{post.excerpt}</p>
                 )}
               </div>
+              {size === "tall" && <TallTileContent slug={post.slug} />}
               <span className="tile-date">
                 {new Date(post.date).toLocaleDateString("en-US", {
                   month: "short",

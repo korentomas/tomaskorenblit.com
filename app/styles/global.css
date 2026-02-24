@@ -263,13 +263,17 @@ body.scroll-locked {
 }
 
 /* Tall tile inline content */
-.tile-inline-content {
+.tile--tall {
   position: relative;
   overflow: hidden;
-  max-height: 280px;
-  font-size: 0.95rem;
+}
+
+.tile-inline-content {
+  font-size: 1.3rem;
   line-height: 1.5;
   color: var(--text-secondary);
+  flex: 1;
+  overflow: hidden;
 }
 
 .tile-inline-content p {
@@ -281,18 +285,20 @@ body.scroll-locked {
   bottom: 0;
   left: 0;
   right: 0;
-  height: 60px;
-  background: linear-gradient(to bottom, transparent, var(--tile-bg));
+  height: 80px;
+  background: linear-gradient(to bottom, transparent, var(--bg));
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  padding-bottom: 4px;
+  padding-bottom: clamp(20px, 3vw, 32px);
+  pointer-events: none;
 }
 
 .tile-read-more {
   font-size: 0.85rem;
   color: var(--accent);
   font-style: italic;
+  pointer-events: auto;
 }
 
 .tile-date {
@@ -482,9 +488,17 @@ body.scroll-locked {
   margin: 0;
 }
 
-.figure--small { max-width: 50%; }
-.figure--medium { max-width: 75%; }
-.figure--full { max-width: 100%; }
+.figure--small {
+  max-width: 50%;
+}
+
+.figure--medium {
+  max-width: 75%;
+}
+
+.figure--full {
+  max-width: 100%;
+}
 
 .figure-caption {
   font-size: 0.85rem;
@@ -582,8 +596,13 @@ button:focus:not(:focus-visible) {
 
 /* Easter eggs */
 @keyframes shimmer {
-  0% { background-position: -200% center; }
-  100% { background-position: 200% center; }
+  0% {
+    background-position: -200% center;
+  }
+
+  100% {
+    background-position: 200% center;
+  }
 }
 
 .shimmer {
@@ -626,7 +645,7 @@ button:focus:not(:focus-visible) {
   z-index: 0;
 }
 
-.tile--identity > *:not(.tile-shader-bg) {
+.tile--identity>*:not(.tile-shader-bg) {
   position: relative;
   z-index: 1;
 }
