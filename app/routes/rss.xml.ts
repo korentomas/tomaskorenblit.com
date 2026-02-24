@@ -3,7 +3,7 @@ import { getAllPosts } from "~/utils/blog.server";
 
 export const loader: LoaderFunction = async () => {
   const posts = await getAllPosts();
-  const siteUrl = "https://tomaskorenblit.com";
+  const siteUrl = "https://tkoren.com";
 
   const rss = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">

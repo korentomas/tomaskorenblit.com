@@ -3,7 +3,7 @@ import { getAllPosts } from "~/utils/blog.server";
 
 export const loader: LoaderFunction = async () => {
   const posts = await getAllPosts();
-  const siteUrl = "https://tomaskorenblit.com";
+  const siteUrl = "https://tkoren.com";
 
   const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">

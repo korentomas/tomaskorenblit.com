@@ -6,11 +6,11 @@ export default function Studio() {
   useEffect(() => {
     // Dynamically import Sanity Studio only on client side
     async function loadStudio() {
-      const { Studio } = await import('sanity');
+      const { Studio } = await import(/* @vite-ignore */ 'sanity');
 
       if (studioRef.current) {
         // Import the config
-        const config = (await import('../../sanity.config')).default;
+        const config = (await import(/* @vite-ignore */ '../../sanity.config')).default;
 
         // Clear container
         studioRef.current.innerHTML = '';

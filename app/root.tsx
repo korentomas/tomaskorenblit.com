@@ -6,11 +6,14 @@ import {
   ScrollRestoration,
 } from "@remix-run/react";
 import { Analytics } from "@vercel/analytics/react";
+import { DialRoot } from "dialkit";
 import { ThemeProvider } from "./context/ThemeContext";
 import styles from "./styles/global.css?url";
+import dialStyles from "dialkit/styles.css?url";
 
 export const links = () => [
   { rel: "stylesheet", href: styles },
+  { rel: "stylesheet", href: dialStyles },
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
   { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
   { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" }
@@ -46,6 +49,7 @@ export default function App() {
         <ScrollRestoration />
         <Scripts />
         <Analytics />
+        <DialRoot position="bottom-right" />
       </body>
     </html>
   );

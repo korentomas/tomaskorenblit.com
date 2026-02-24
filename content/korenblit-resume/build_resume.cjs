@@ -150,34 +150,34 @@ const leftContent = [
 
   roleTitle("Partner, Data Scientist & Full-Stack Engineer"),
   roleMeta("Ascendancy", "Jan 2026 \u2013 Present"),
-  bullet("Building a network intelligence platform that maps and scores relationship paths for institutional clients\u2014from investor dinners to Fortune 500 event targeting."),
-  bullet("Designed LinkedIn data ingestion backend, email connection pipeline, and investment data import system powering network analysis."),
-  bullet("Established engineering foundations: CI/CD pipelines, development standards, and automated workflows for a greenfield team."),
+  bullet("Architecting a network intelligence platform that maps and scores relationship paths for institutional clients targeting Fortune 500 events."),
+  bullet("Designed the data ingestion backend (LinkedIn, email, investment data) powering the platform\u2019s relationship scoring engine."),
+  bullet("Established CI/CD pipelines, development standards, and automated workflows as founding engineer of a greenfield team."),
 
   roleTitle("Software Engineer"),
   roleMeta("Invisible Technologies", "Jun \u2013 Dec 2025"),
-  bullet("Shipped an interactive AI-assisted interface design platform for RLHF, serving Google, Meta, Anthropic, and OpenAI."),
-  bullet("Built versioning, self-healing features, and GCP integration for batch/campaign bucket management."),
+  bullet("Shipped an AI-assisted design platform for reinforcement learning from human feedback (RLHF), serving 4 major AI labs including Google, Meta, and Anthropic."),
+  bullet("Built versioning, self-healing pipelines, and GCP integration for batch data management across campaigns."),
 
   roleTitle("Coding QC Analyst & AI Data Trainer"),
   roleMeta("Invisible Technologies", "Dec 2022 \u2013 Jun 2025"),
-  bullet("Created dashboards (Looker, Apps Script, Python) to validate coding training data\u2014adopted company-wide for daily workflows."),
-  bullet("Oversaw quality for 150+ agents across coding quality operations."),
+  bullet("Created validation dashboards (Looker, Python, Apps Script) for coding training data\u2014adopted company-wide as daily QC tooling."),
+  bullet("Oversaw data quality across 150+ annotators in coding quality operations."),
 
   roleTitle("Lead Generator & Data Scientist"),
-  roleMeta("Klouser", "Nov 2021 \u2013 Oct 2022"),
-  bullet("Built a prospect generation system increasing daily lead capacity from 0\u201310 to 40\u201350 (Python, PostgreSQL, Flask, Scikit-learn)."),
-  bullet("Assembled text classifier from 6,000 client profiles; automated billing integrated with Xero."),
+  roleMeta("Klouser (B2B lead generation)", "Nov 2021 \u2013 Oct 2022"),
+  bullet("Increased daily lead generation 5x (10 to 50) building a classification-driven prospect system (Python, PostgreSQL, Scikit-learn)."),
+  bullet("Trained a text classifier on 6,000 client profiles for automated prospect scoring; integrated billing with Xero."),
 
   sectionTitle("Bayesian Projects"),
 
-  roleTitle("V\u00e9lez Sarsfield \u2014 Player Skill Estimation"),
-  roleMeta("Hierarchical Bayesian Models \u00B7 PyMC", "2025"),
-  bullet("Built hierarchical models to estimate player skill; analyzed V\u00e9lez\u2019s sharp point drop in early 2025. Contributed to TrueSkillThroughTime (originally Julia)."),
+  roleTitle("Player Skill Estimation \u2014 V\u00e9lez Sarsfield"),
+  roleMeta("Argentine Football \u00B7 Hierarchical Bayesian Models \u00B7 PyMC", "2025"),
+  bullet("Estimated player skill over time for a top-division football club using hierarchical Bayesian models; identified structural causes of a mid-season point collapse. Ported TrueSkillThroughTime rating library from Julia to PyMC."),
 
-  roleTitle("NBA TrailBlazers \u2014 Exploration vs. Exploitation"),
-  roleMeta("Thompson Sampling \u00B7 Live Experiment", "2025"),
-  bullet("Developed Thompson sampling models for young player development with stint-based lineup recommendations. In conversation with Tom Haberstroh."),
+  roleTitle("Lineup Optimization \u2014 Portland Trail Blazers"),
+  roleMeta("NBA \u00B7 Thompson Sampling \u00B7 Live Experiment", "2025"),
+  bullet("Modeled young-player development minutes via Thompson sampling for an NBA team, producing stint-based lineup recommendations. Findings shared with media analyst Tom Haberstroh."),
 ];
 
 const rightContent = [
@@ -215,7 +215,7 @@ const rightContent = [
   new Paragraph({
     spacing: { before: 120, after: 0 },
     children: [
-      new TextRun({ text: "UNSAM", bold: true, size: 17, color: INK, font: BODY_FONT }),
+      new TextRun({ text: "UNSAM (Buenos Aires)", bold: true, size: 17, color: INK, font: BODY_FONT }),
     ],
   }),
   sidebarText("BSc Data Science"),
@@ -278,12 +278,25 @@ const doc = new Document({
 
         // === SUBTITLE — the single accent moment ===
         new Paragraph({
-          spacing: { before: 30, after: 60 },
+          spacing: { before: 30, after: 40 },
           children: [
             new TextRun({
               text: "Bayesian Data Scientist & Engineer",
               size: 19,
               color: ACCENT,
+              font: BODY_FONT,
+            }),
+          ],
+        }),
+
+        // === SUMMARY — positions the candidate in 6 seconds ===
+        new Paragraph({
+          spacing: { before: 0, after: 60 },
+          children: [
+            new TextRun({
+              text: "Data scientist specializing in Bayesian inference, hierarchical modeling, and causal reasoning. Builds end-to-end systems from statistical models to production data pipelines in Python, SQL, and GCP.",
+              size: 16,
+              color: STONE,
               font: BODY_FONT,
             }),
           ],
@@ -301,12 +314,12 @@ const doc = new Document({
             new TextRun({ text: "  \u00B7  ", size: 15, color: CLOUD, font: BODY_FONT }),
             new ExternalHyperlink({
               children: [new TextRun({ text: "GitHub", style: "Hyperlink", size: 15, font: BODY_FONT })],
-              link: "https://github.com/tomaskorenblit",
+              link: "https://github.com/korentomas",
             }),
             new TextRun({ text: "  \u00B7  ", size: 15, color: CLOUD, font: BODY_FONT }),
             new ExternalHyperlink({
               children: [new TextRun({ text: "LinkedIn", style: "Hyperlink", size: 15, font: BODY_FONT })],
-              link: "https://linkedin.com/in/tomaskorenblit",
+              link: "https://www.linkedin.com/in/tomaskorenblit/",
             }),
           ],
         }),

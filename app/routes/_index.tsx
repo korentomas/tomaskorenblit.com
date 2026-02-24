@@ -3,6 +3,7 @@ import { useTheme } from "../context/ThemeContext";
 import { useEffect, useRef } from "react";
 import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
+import { useDialKit } from "dialkit";
 import { optimizeImage } from "~/utils/imageOptimizer";
 import Navigation from "~/components/Navigation";
 
@@ -20,19 +21,28 @@ export const loader: LoaderFunction = async () => {
 };
 
 export const meta: MetaFunction = () => {
+  const siteUrl = "https://tkoren.com";
+  const title = "Tomás Korenblit | Bayesian Data Scientist & Engineer";
+  const description = "Tomás Korenblit — Bayesian data scientist and software engineer. Partner at Ascendancy building network intelligence systems. Specializing in hierarchical modeling, causal inference, and production data pipelines in Python, SQL, and GCP.";
+  const image = `${siteUrl}/optimized-images/also_me-800w-90q.webp`;
+
   return [
-    { title: "Tomás Korenblit | Partner at Ascendancy" },
-    { name: "description", content: "Partner, Data Scientist & Software Engineer at Ascendancy. Building AI-native relationship intelligence systems that compound network capital. Expertise in graph systems, machine learning, and full-stack development." },
-    { name: "keywords", content: "Network Capital, Graph Systems, Data Science, Software Engineering, AI Systems, Relationship Intelligence, Full-Stack Development" },
+    { title },
+    { name: "description", content: description },
+    { name: "keywords", content: "Tomás Korenblit, Tomas Korenblit, Bayesian Data Scientist, Data Science, Statistical Modeling, PyMC, Python, Machine Learning, Causal Inference, Software Engineer, Buenos Aires" },
     { name: "author", content: "Tomás Korenblit" },
-    { name: "viewport", content: "width=device-width, initial-scale=1" },
-    { property: "og:title", content: "Tomás Korenblit | Partner at Ascendancy" },
-    { property: "og:description", content: "Building AI-native relationship intelligence systems that compound network capital. Expertise in graph systems, machine learning, and full-stack development." },
+    { tagName: "link", rel: "canonical", href: siteUrl },
+    { property: "og:title", content: title },
+    { property: "og:description", content: description },
     { property: "og:type", content: "website" },
-    { name: "twitter:card", content: "summary" },
-    { name: "twitter:title", content: "Tomás Korenblit | Partner at Ascendancy" },
-    { name: "twitter:description", content: "Building AI-native relationship intelligence systems that compound network capital." },
-    { rel: "preload", as: "image", href: "/optimized-images/also_me-800w-90q.webp" }
+    { property: "og:url", content: siteUrl },
+    { property: "og:image", content: image },
+    { property: "og:site_name", content: "Tomás Korenblit" },
+    { property: "og:locale", content: "en_US" },
+    { name: "twitter:card", content: "summary_large_image" },
+    { name: "twitter:title", content: title },
+    { name: "twitter:description", content: description },
+    { name: "twitter:image", content: image },
   ];
 };
 
@@ -40,6 +50,23 @@ export default function Index() {
   const { theme, toggleTheme } = useTheme();
   const imageRef = useRef<HTMLDivElement>(null);
   const { optimizedImagePath } = useLoaderData<{ optimizedImagePath: string }>();
+
+  /* ─────────────────────────────────────────────────────────
+   * 3D IMAGE EFFECT — DialKit live controls
+   *
+   * perspective    — camera distance (lower = more dramatic)
+   * rotateXMax     — vertical tilt range in degrees
+   * rotateYMax     — horizontal tilt range in degrees
+   * translateZMax  — depth push in pixels
+   * damping        — smoothing factor (0 = frozen, 1 = instant)
+   * ───────────────────────────────────────────────────────── */
+  const params = useDialKit("3D Image", {
+    perspective: [1000, 200, 2000, 50],
+    rotateXMax: [20, 0, 45],
+    rotateYMax: [30, 0, 60],
+    translateZMax: [20, 0, 50],
+    damping: [0.08, 0.01, 0.3, 0.01],
+  });
 
   useEffect(() => {
     const image = imageRef.current;
@@ -58,26 +85,23 @@ export default function Index() {
       const centerX = rect.left + rect.width / 2;
       const centerY = rect.top + rect.height / 2;
 
-      // Calculate distance from center of image
       const deltaX = e.clientX - centerX;
       const deltaY = e.clientY - centerY;
 
-      // Calculate target rotation based on distance from center
-      targetX = -(deltaY / window.innerHeight) * 20; // Max 20 degrees
-      targetY = (deltaX / window.innerWidth) * 30; // Max 30 degrees
+      targetX = -(deltaY / window.innerHeight) * params.rotateXMax;
+      targetY = (deltaX / window.innerWidth) * params.rotateYMax;
 
-      // Calculate Z depth based on mouse distance from center
       const distanceFromCenter = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
       const maxDistance = Math.sqrt(window.innerWidth * window.innerWidth + window.innerHeight * window.innerHeight) / 2;
-      targetZ = (distanceFromCenter / maxDistance) * 20; // Max 20px depth
+      targetZ = (distanceFromCenter / maxDistance) * params.translateZMax;
     };
 
     const animate = () => {
-      currentX += (targetX - currentX) * 0.08;
-      currentY += (targetY - currentY) * 0.08;
-      currentZ += (targetZ - currentZ) * 0.08;
+      currentX += (targetX - currentX) * params.damping;
+      currentY += (targetY - currentY) * params.damping;
+      currentZ += (targetZ - currentZ) * params.damping;
 
-      image.style.transform = `perspective(1000px) rotateX(${currentX}deg) rotateY(${currentY}deg) translateZ(${currentZ}px)`;
+      image.style.transform = `perspective(${params.perspective}px) rotateX(${currentX}deg) rotateY(${currentY}deg) translateZ(${currentZ}px)`;
 
       animationFrameId = requestAnimationFrame(animate);
     };
@@ -89,31 +113,52 @@ export default function Index() {
       cancelAnimationFrame(animationFrameId);
       window.removeEventListener('mousemove', handleMouseMove);
     };
-  }, []);
+  }, [params.perspective, params.rotateXMax, params.rotateYMax, params.translateZMax, params.damping]);
 
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Person",
     name: "Tomás Pablo Korenblit",
-    jobTitle: "Partner, Data Scientist & Software Engineer",
+    alternateName: "Tomas Korenblit",
+    givenName: "Tomás",
+    familyName: "Korenblit",
+    jobTitle: "Bayesian Data Scientist & Software Engineer",
     worksFor: {
       "@type": "Organization",
       name: "Ascendancy"
     },
-    url: "https://tomaskorenblit.com",
+    url: "https://tkoren.com",
+    image: "https://tkoren.com/optimized-images/also_me-800w-90q.webp",
+    email: "tomaskorenblit@gmail.com",
     sameAs: [
-      "https://github.com/tomaskorenblit",
-      "https://linkedin.com/in/tomaskorenblit"
+      "https://github.com/korentomas",
+      "https://www.linkedin.com/in/tomaskorenblit/"
     ],
+    alumniOf: {
+      "@type": "EducationalOrganization",
+      name: "Universidad Nacional de San Martín (UNSAM)",
+      address: { "@type": "PostalAddress", addressLocality: "Buenos Aires", addressCountry: "AR" }
+    },
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: "Buenos Aires",
+      addressCountry: "AR"
+    },
     knowsAbout: [
-      "Graph Systems",
-      "Network Capital",
+      "Bayesian Inference",
+      "Hierarchical Modeling",
+      "Causal Inference",
+      "Statistical Modeling",
+      "Thompson Sampling",
+      "PyMC",
+      "Python",
       "Data Science",
       "Machine Learning",
       "Full-Stack Development",
-      "Relationship Intelligence"
+      "Graph Systems",
+      "Network Intelligence"
     ],
-    description: "Building AI-native relationship intelligence systems that compound network capital at scale."
+    description: "Bayesian data scientist and software engineer specializing in hierarchical modeling, causal inference, and production data pipelines. Partner at Ascendancy building network intelligence systems."
   };
 
   return (
@@ -167,12 +212,12 @@ export default function Index() {
             </div>
 
             <div className="social-icons">
-              <a href="https://github.com/tomaskorenblit" target="_blank" rel="noreferrer" aria-label="GitHub">
+              <a href="https://github.com/korentomas" target="_blank" rel="noreferrer" aria-label="GitHub">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
                 </svg>
               </a>
-              <a href="https://linkedin.com/in/tomaskorenblit" target="_blank" rel="noreferrer" aria-label="LinkedIn">
+              <a href="https://www.linkedin.com/in/tomaskorenblit/" target="_blank" rel="noreferrer" aria-label="LinkedIn">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
                   <rect x="2" y="9" width="4" height="12"></rect>
@@ -275,7 +320,7 @@ export default function Index() {
                 </div>
 
                 <div className="project-card">
-                  <a href="https://github.com/tomaskorenblit" target="_blank" rel="noreferrer">
+                  <a href="https://github.com/korentomas" target="_blank" rel="noreferrer">
                     <h3>More on GitHub</h3>
                     <p>Additional projects including data visualization dashboards, ML experiments, and technical explorations. From Bayesian causal inference to NLP pipelines—always learning, always building.</p>
                     <div className="project-tags">
