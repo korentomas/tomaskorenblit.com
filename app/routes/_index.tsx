@@ -9,7 +9,7 @@ import { MeshGradient } from "@paper-design/shaders-react";
 import { ShaderBanner } from "~/components/ShaderBanner";
 import { PostArticle } from "~/components/PostArticle";
 import { FilterBar } from "~/components/FilterBar";
-import { SITE_URL, SITE, SOCIAL_LINKS, mdxComponents } from "~/utils/site-config";
+import { SITE_URL, SITE, SOCIAL_LINKS, CATEGORY_LABELS, mdxComponents } from "~/utils/site-config";
 
 /* ─── Layout ─────────────────────────────────────── */
 const MAX_VISIBLE_POSTS = 5;
@@ -382,7 +382,9 @@ export default function Index() {
             >
               <TilePreview post={post} height={size === "small" ? "48px" : "80px"} />
               <div>
-                <span className="tile-type">{post.type}</span>
+                <span className="tile-type">
+                  {post.type}{post.category && ` · ${CATEGORY_LABELS[post.category] ?? post.category}`}
+                </span>
                 <h2 className="tile-title">{post.title}</h2>
                 {size !== "tall" && (
                   <p className="tile-excerpt">{post.excerpt}</p>

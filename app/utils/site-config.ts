@@ -52,6 +52,10 @@ export const CATEGORIES = [
   { slug: "personal", label: "Personal" },
 ] as const;
 
+export const CATEGORY_LABELS = Object.fromEntries(
+  CATEGORIES.map((c) => [c.slug, c.label])
+) as Record<string, string>;
+
 export const mdxComponents = {
   Spoiler,
   Typewriter,
