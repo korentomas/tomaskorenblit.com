@@ -11,7 +11,7 @@
   /* Colors — Tanizaki warmth + Y2K frost, oklch */
   --bg: oklch(0.97 0.005 90);
   --text: oklch(0.30 0.005 90);
-  --text-secondary: oklch(0.62 0.01 90);
+  --text-secondary: oklch(0.52 0.01 90);
   --accent: oklch(0.63 0.14 250);
 
   /* Tiles — frosted glass */
@@ -26,7 +26,7 @@
 [data-theme="dark"] {
   --bg: oklch(0.17 0.005 90);
   --text: oklch(0.93 0.005 90);
-  --text-secondary: oklch(0.62 0.01 90);
+  --text-secondary: oklch(0.75 0.01 90);
   --accent: oklch(0.74 0.12 250);
 
   --tile-bg: oklch(0.24 0.005 90 / 0.65);
@@ -95,7 +95,7 @@ body.scroll-locked {
 
 /* Colored tiles — oklch accent derived from --tile-hue */
 .tile--colored {
-  --accent-l: 0.52;
+  --accent-l: 0.48;
   --accent-c: 0.15;
   --tile-accent: oklch(var(--accent-l) var(--accent-c) var(--tile-hue, 250));
   --tile-accent-faint: oklch(var(--accent-l) var(--accent-c) var(--tile-hue, 250) / 0.07);
@@ -445,7 +445,7 @@ body.scroll-locked {
 .post-tag-pill {
   padding: 0.3rem 0.65rem;
   border-radius: 999px;
-  border: 1px solid oklch(0 0 0 / 0.08);
+  border: 1px solid oklch(0 0 0 / 0.15);
   background: transparent;
   font-family: var(--font-body);
   font-size: 0.75rem;
@@ -464,11 +464,11 @@ body.scroll-locked {
 }
 
 [data-theme="dark"] .post-tag-pill {
-  border-color: oklch(1 0 0 / 0.1);
+  border-color: oklch(1 0 0 / 0.18);
 }
 
 [data-theme="dark"] .post-tags {
-  border-top-color: oklch(1 0 0 / 0.06);
+  border-top-color: oklch(1 0 0 / 0.12);
 }
 
 @media (max-width: 768px) {
@@ -555,6 +555,14 @@ body.scroll-locked {
   padding: 0;
 }
 
+[data-theme="dark"] .post-content code {
+  background: oklch(1 0 0 / 0.08);
+}
+
+[data-theme="dark"] .post-content pre {
+  background: oklch(1 0 0 / 0.08);
+}
+
 .post-content img {
   max-width: 100%;
   height: auto;
@@ -634,7 +642,7 @@ body.scroll-locked {
   flex-shrink: 0;
   padding: 0.35rem 0.75rem;
   border-radius: 999px;
-  border: 1px solid oklch(0 0 0 / 0.08);
+  border: 1px solid oklch(0 0 0 / 0.15);
   background: var(--tile-bg);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
@@ -651,7 +659,7 @@ body.scroll-locked {
 
 .filter-pill:hover {
   color: var(--text);
-  border-color: oklch(0 0 0 / 0.15);
+  border-color: oklch(0 0 0 / 0.25);
 }
 
 .filter-pill--active {
@@ -665,11 +673,11 @@ body.scroll-locked {
 }
 
 [data-theme="dark"] .filter-pill {
-  border-color: oklch(1 0 0 / 0.1);
+  border-color: oklch(1 0 0 / 0.18);
 }
 
 [data-theme="dark"] .filter-pill:hover {
-  border-color: oklch(1 0 0 / 0.2);
+  border-color: oklch(1 0 0 / 0.3);
 }
 
 [data-theme="dark"] .filter-pill--active {
@@ -691,7 +699,7 @@ body.scroll-locked {
 }
 
 [data-theme="dark"] .filter-divider {
-  background: oklch(1 0 0 / 0.1);
+  background: oklch(1 0 0 / 0.18);
 }
 
 /* Tile footer — date + project links */
@@ -920,6 +928,10 @@ button:focus:not(:focus-visible) {
   margin-top: 3rem;
   padding-top: 2rem;
   border-top: 1px solid oklch(0 0 0 / 0.06);
+}
+
+[data-theme="dark"] .comments-section {
+  border-top-color: oklch(1 0 0 / 0.12);
 }
 
 .comments-section iframe {

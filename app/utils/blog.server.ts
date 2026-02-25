@@ -31,6 +31,7 @@ export function getAllPosts(): BlogPost[] {
       posts.push({
         slug,
         ...module.frontmatter,
+        category: module.frontmatter.category || "personal",
       });
     }
   }
@@ -38,18 +39,6 @@ export function getAllPosts(): BlogPost[] {
   return posts.sort(
     (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
   );
-}
-
-export function getAllTags(posts: BlogPost[]): { tag: string; count: number }[] {
-  const counts = new Map<string, number>();
-  for (const post of posts) {
-    for (const tag of post.tags ?? []) {
-      counts.set(tag, (counts.get(tag) ?? 0) + 1);
-    }
-  }
-  return Array.from(counts.entries())
-    .map(([tag, count]) => ({ tag, count }))
-    .sort((a, b) => b.count - a.count);
 }
 
 export function getPost(slug: string) {

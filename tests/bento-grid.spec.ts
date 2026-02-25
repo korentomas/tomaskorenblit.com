@@ -59,7 +59,6 @@ test.describe("WCAG Accessibility", () => {
     await page.goto("/");
     const results = await new AxeBuilder({ page })
       .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"])
-      .disableRules(["color-contrast"]) // Pre-existing contrast issues in oklch palette
       .analyze();
 
     expect(results.violations).toEqual([]);
@@ -71,7 +70,6 @@ test.describe("WCAG Accessibility", () => {
     await page.waitForSelector(".post-content p");
     const results = await new AxeBuilder({ page })
       .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"])
-      .disableRules(["color-contrast"]) // Pre-existing contrast issues in oklch palette
       .analyze();
 
     expect(results.violations).toEqual([]);

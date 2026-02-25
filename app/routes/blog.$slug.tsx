@@ -117,7 +117,7 @@ export default function BlogPostRoute() {
           frontmatter={frontmatter as BlogPost}
           slug={slug}
           Component={Component}
-          onTagClick={(filter) => navigate(`/?${filter.type}=${filter.value}`)}
+          onTagClick={(filter) => navigate(`/?${filter.type}=${encodeURIComponent(filter.value)}`)}
         />
       </article>
     </div>

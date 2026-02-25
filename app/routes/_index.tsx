@@ -164,10 +164,12 @@ export default function Index() {
     window.history.pushState(null, "", `/blog/${slug}`);
   }, [posts]);
 
-  const closePost = useCallback(() => {
+  const closePost = useCallback((skipPush = false) => {
     setExpandedSlug(null);
     document.body.classList.remove("scroll-locked");
-    window.history.pushState(null, "", "/");
+    if (!skipPush) {
+      window.history.pushState(null, "", "/");
+    }
     setTimeout(() => {
       setPostComponent(null);
       setPostMeta(null);
@@ -282,7 +284,7 @@ export default function Index() {
 
   return (
     <div className={inverted ? "inverted" : ""} style={{ transition: "filter 0.5s ease" }}>
-      <motion.div
+      <motion.main
         className="bento"
         id="content"
         animate={wobble ? { rotate: [0, -1, 1, -1, 0] } : undefined}
@@ -430,7 +432,7 @@ export default function Index() {
             <span className="viewall-text">View all writing →</span>
           </div>
         )}
-      </motion.div>
+      </motion.main>
 
       {/* Expanded post overlay */}
       <AnimatePresence>
@@ -457,16 +459,18 @@ export default function Index() {
                 transition={SPRING_CONTENT}
                 style={{ "--tile-hue": postMeta ? getHue(postMeta) : DEFAULT_HUE } as React.CSSProperties}
               >
-                <PostArticle
-                  frontmatter={postMeta!}
-                  slug={expandedSlug}
-                  Component={PostComponent}
-                  onBack={closePost}
-                  onTagClick={(filter) => {
-                    closePost();
-                    handleFilter(filter);
-                  }}
-                />
+                {postMeta && (
+                  <PostArticle
+                    frontmatter={postMeta}
+                    slug={expandedSlug}
+                    Component={PostComponent}
+                    onBack={() => closePost()}
+                    onTagClick={(filter) => {
+                      closePost(true);
+                      handleFilter(filter);
+                    }}
+                  />
+                )}
               </motion.article>
             </motion.div>
           </>
