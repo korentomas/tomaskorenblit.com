@@ -39,6 +39,7 @@ export default function App() {
         <Links />
       </head>
       <body>
+        <a href="#content" className="skip-link">Skip to content</a>
         <Outlet />
         <ScrollRestoration />
         <Scripts />

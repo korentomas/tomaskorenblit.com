@@ -6,8 +6,8 @@ test.describe("Blog Post Expansion", () => {
   });
 
   test("clicking a blog tile expands the post overlay", async ({ page }) => {
-    const hero = page.locator(".tile--hero");
-    await hero.click();
+    const firstTile = page.locator(".tile--clickable").first();
+    await firstTile.click();
 
     // Wait for overlay to appear
     await expect(page.locator(".post-overlay")).toBeVisible();
@@ -15,26 +15,25 @@ test.describe("Blog Post Expansion", () => {
     await expect(page.locator(".post-content")).toBeVisible();
   });
 
-  test("expanded post shows close button", async ({ page }) => {
-    const hero = page.locator(".tile--hero");
-    await hero.click();
+  test("expanded post shows back button", async ({ page }) => {
+    const firstTile = page.locator(".tile--clickable").first();
+    await firstTile.click();
 
-    const closeBtn = page.locator(".post-close");
-    await expect(closeBtn).toBeVisible();
-    await expect(closeBtn).toHaveAttribute("aria-label", "Close post");
+    const backBtn = page.locator(".post-back");
+    await expect(backBtn).toBeVisible();
   });
 
-  test("close button collapses the post", async ({ page }) => {
-    const hero = page.locator(".tile--hero");
-    await hero.click();
+  test("back button collapses the post", async ({ page }) => {
+    const firstTile = page.locator(".tile--clickable").first();
+    await firstTile.click();
     await expect(page.locator(".post-overlay")).toBeVisible();
 
-    await page.locator(".post-close").click();
+    await page.locator(".post-back").click();
     await expect(page.locator(".post-overlay")).not.toBeVisible();
   });
 
   test("Escape key closes expanded post", async ({ page }) => {
-    await page.locator(".tile--hero").click();
+    await page.locator(".tile--clickable").first().click();
     await expect(page.locator(".post-overlay")).toBeVisible();
 
     await page.keyboard.press("Escape");
@@ -42,24 +41,24 @@ test.describe("Blog Post Expansion", () => {
   });
 
   test("URL updates when post is opened", async ({ page }) => {
-    await page.locator(".tile--hero").click();
+    await page.locator(".tile--clickable").first().click();
+    await expect(page.locator(".post-overlay")).toBeVisible();
     await expect(page).toHaveURL(/\/blog\//);
   });
 
   test("URL returns to / when post is closed", async ({ page }) => {
-    await page.locator(".tile--hero").click();
+    await page.locator(".tile--clickable").first().click();
     await expect(page).toHaveURL(/\/blog\//);
 
-    await page.locator(".post-close").click();
+    await page.locator(".post-back").click();
     // Wait for URL to update
     await page.waitForURL("/");
     await expect(page).toHaveURL("/");
   });
 
   test("Enter key opens blog tile", async ({ page }) => {
-    // Tab to first blog tile
-    const hero = page.locator(".tile--hero");
-    await hero.focus();
+    const firstTile = page.locator(".tile--clickable").first();
+    await firstTile.focus();
     await page.keyboard.press("Enter");
 
     await expect(page.locator(".post-overlay")).toBeVisible();

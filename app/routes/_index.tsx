@@ -1,5 +1,5 @@
 import type { MetaFunction } from "@vercel/remix";
-import { useLoaderData } from "@remix-run/react";
+import { useLoaderData, useSearchParams } from "@remix-run/react";
 import { json } from "@remix-run/node";
 import { useState, useEffect, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -8,7 +8,8 @@ import type { BlogPost } from "~/utils/blog.server";
 import { MeshGradient } from "@paper-design/shaders-react";
 import { ShaderBanner } from "~/components/ShaderBanner";
 import { PostArticle } from "~/components/PostArticle";
-import { SITE_URL, SITE, SOCIAL_LINKS, mdxComponents } from "~/utils/site-config";
+import { FilterBar } from "~/components/FilterBar";
+import { SITE_URL, SITE, SOCIAL_LINKS, CATEGORY_LABELS, mdxComponents } from "~/utils/site-config";
 
 /* ─── Layout ─────────────────────────────────────── */
 const MAX_VISIBLE_POSTS = 5;
@@ -124,6 +125,23 @@ export const meta: MetaFunction = () => [
 
 export default function Index() {
   const { posts } = useLoaderData<typeof loader>();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const activeFilter = (() => {
+    const category = searchParams.get("category");
+    const tag = searchParams.get("tag");
+    if (category) return { type: "category" as const, value: category };
+    if (tag) return { type: "tag" as const, value: tag };
+    return null;
+  })();
+
+  const handleFilter = useCallback((filter: { type: "category" | "tag"; value: string } | null) => {
+    if (!filter) {
+      setSearchParams({});
+    } else {
+      setSearchParams({ [filter.type]: filter.value });
+    }
+  }, [setSearchParams]);
+
   const [expandedSlug, setExpandedSlug] = useState<string | null>(null);
   const [PostComponent, setPostComponent] = useState<React.ComponentType | null>(null);
   const [postMeta, setPostMeta] = useState<BlogPost | null>(null);
@@ -146,10 +164,12 @@ export default function Index() {
     window.history.pushState(null, "", `/blog/${slug}`);
   }, [posts]);
 
-  const closePost = useCallback(() => {
+  const closePost = useCallback((skipPush = false) => {
     setExpandedSlug(null);
     document.body.classList.remove("scroll-locked");
-    window.history.pushState(null, "", "/");
+    if (!skipPush) {
+      window.history.pushState(null, "", "/");
+    }
     setTimeout(() => {
       setPostComponent(null);
       setPostMeta(null);
@@ -249,16 +269,24 @@ export default function Index() {
   // Bento size: hero is tall, essays are wide, notes are 1x1
   const tileSize = (post: BlogPost): "wide" | "tall" | "small" => {
     if (post.layout) return post.layout;
-    if (post.type === "essay") return "wide";
+    if (post.type === "essay" || post.type === "project") return "wide";
     return "small";
   };
 
-  const visiblePosts = posts.slice(0, MAX_VISIBLE_POSTS);
+  const filteredPosts = activeFilter
+    ? posts.filter((post) => {
+        if (activeFilter.type === "category") return post.category === activeFilter.value;
+        if (activeFilter.type === "tag") return post.tags?.includes(activeFilter.value);
+        return true;
+      })
+    : posts;
+  const visiblePosts = filteredPosts.slice(0, activeFilter ? filteredPosts.length : MAX_VISIBLE_POSTS);
 
   return (
     <div className={inverted ? "inverted" : ""} style={{ transition: "filter 0.5s ease" }}>
-      <motion.div
+      <motion.main
         className="bento"
+        id="content"
         animate={wobble ? { rotate: [0, -1, 1, -1, 0] } : undefined}
         transition={wobble ? { duration: 0.5, ease: "easeInOut" } : undefined}
         layout={false}
@@ -329,6 +357,15 @@ export default function Index() {
           </div>
         </div>
 
+        <FilterBar posts={posts} activeFilter={activeFilter} onFilter={handleFilter} />
+
+        {/* Live region for screen readers */}
+        <div className="sr-only" aria-live="polite" role="status">
+          {activeFilter
+            ? `Showing ${filteredPosts.length} post${filteredPosts.length !== 1 ? "s" : ""}`
+            : `Showing all ${posts.length} posts`}
+        </div>
+
         {/* Blog tiles — sized by type */}
         {visiblePosts.map((post, i) => {
           const size = tileSize(post);
@@ -344,34 +381,58 @@ export default function Index() {
                 onKeyDown: (e: React.KeyboardEvent) => (e.key === "Enter" || e.key === " ") && openPost(post.slug),
               } : {})}
               style={{ "--tile-hue": getHue(post) } as React.CSSProperties}
-              layout={false}
+              layout="position"
             >
               <TilePreview post={post} height={size === "small" ? "48px" : "80px"} />
               <div>
-                <span className="tile-type">{post.type}</span>
+                <span className="tile-type">
+                  {post.type}{post.category && ` · ${CATEGORY_LABELS[post.category] ?? post.category}`}
+                </span>
                 <h2 className="tile-title">{post.title}</h2>
                 {size !== "tall" && (
                   <p className="tile-excerpt">{post.excerpt}</p>
                 )}
               </div>
               {size === "tall" && <TallTileContent slug={post.slug} isStatic={post.static} />}
-              <span className="tile-date">
-                {new Date(post.date).toLocaleDateString("en-US", {
-                  month: "short",
-                  day: "numeric",
-                })}
-              </span>
+              <div className="tile-footer">
+                {post.type === "project" && (
+                  <span className="tile-project-links">
+                    {post.status && (
+                      <span className={`tile-status tile-status--${post.status}`} aria-label={`Project status: ${post.status}`}>
+                        <span className="tile-status-dot" aria-hidden="true" />
+                        {post.status}
+                      </span>
+                    )}
+                    {post.repo && (
+                      <a href={post.repo} target="_blank" rel="noopener noreferrer" aria-label={`${post.title} source code on GitHub`} className="tile-link-icon" onClick={(e) => e.stopPropagation()}>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" /></svg>
+                      </a>
+                    )}
+                    {post.demo && (
+                      <a href={post.demo} target="_blank" rel="noopener noreferrer" aria-label={`${post.title} live demo`} className="tile-link-icon" onClick={(e) => e.stopPropagation()}>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /><polyline points="15 3 21 3 21 9" /><line x1="10" y1="14" x2="21" y2="3" /></svg>
+                      </a>
+                    )}
+                  </span>
+                )}
+                <span className="tile-date">
+                  {new Date(post.date).toLocaleDateString("en-US", {
+                    month: "short",
+                    day: "numeric",
+                  })}
+                </span>
+              </div>
             </motion.div>
           );
         })}
 
         {/* View all tile */}
-        {posts.length > MAX_VISIBLE_POSTS && (
+        {!activeFilter && posts.length > MAX_VISIBLE_POSTS && (
           <div className="tile tile--small tile--viewall tile--clickable">
             <span className="viewall-text">View all writing →</span>
           </div>
         )}
-      </motion.div>
+      </motion.main>
 
       {/* Expanded post overlay */}
       <AnimatePresence>
@@ -398,12 +459,18 @@ export default function Index() {
                 transition={SPRING_CONTENT}
                 style={{ "--tile-hue": postMeta ? getHue(postMeta) : DEFAULT_HUE } as React.CSSProperties}
               >
-                <PostArticle
-                  frontmatter={postMeta!}
-                  slug={expandedSlug}
-                  Component={PostComponent}
-                  onBack={closePost}
-                />
+                {postMeta && (
+                  <PostArticle
+                    frontmatter={postMeta}
+                    slug={expandedSlug}
+                    Component={PostComponent}
+                    onBack={() => closePost()}
+                    onTagClick={(filter) => {
+                      closePost(true);
+                      handleFilter(filter);
+                    }}
+                  />
+                )}
               </motion.article>
             </motion.div>
           </>
