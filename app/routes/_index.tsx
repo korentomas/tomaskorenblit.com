@@ -266,11 +266,22 @@ export default function Index() {
 
   const getHue = (post: BlogPost) => post.hue ?? slugToHue(post.slug);
 
-  // Bento size: hero is tall, essays are wide, notes are 1x1
-  const tileSize = (post: BlogPost): "wide" | "tall" | "small" => {
+  // Bento layout pattern — creates visual rhythm in the 3-col grid.
+  // Identity tile occupies cols 1-2 of row 1, so position 0 slots
+  // into col 3 beside it. Pattern cycles every 6 tiles.
+  // Frontmatter `layout` always overrides.
+  const BENTO_PATTERN: Array<"wide" | "tall" | "small"> = [
+    "small",  // col 3 beside identity
+    "wide",   // hero row
+    "tall",   // height variety, spans 2 rows
+    "small",  // compact pair beside tall
+    "small",  // compact pair
+    "wide",   // second feature
+  ];
+
+  const tileSize = (post: BlogPost, index: number): "wide" | "tall" | "small" => {
     if (post.layout) return post.layout;
-    if (post.type === "essay" || post.type === "project") return "wide";
-    return "small";
+    return BENTO_PATTERN[index % BENTO_PATTERN.length];
   };
 
   const filteredPosts = activeFilter
@@ -367,7 +378,7 @@ export default function Index() {
 
         {/* Blog tiles — sized by type */}
         {visiblePosts.map((post, i) => {
-          const size = tileSize(post);
+          const size = tileSize(post, i);
           const interactive = !post.static;
           return (
             <motion.div
