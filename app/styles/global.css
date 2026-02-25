@@ -938,3 +938,21 @@ button:focus:not(:focus-visible) {
   white-space: nowrap;
   border: 0;
 }
+
+/* Skip link */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 0;
+  padding: 0.75rem 1.5rem;
+  background: var(--text);
+  color: var(--bg);
+  font-size: 0.9rem;
+  z-index: 300;
+  text-decoration: none;
+  border-radius: 0 0 var(--tile-radius) 0;
+}
+
+.skip-link:focus {
+  top: 0;
+}

@@ -284,6 +284,7 @@ export default function Index() {
     <div className={inverted ? "inverted" : ""} style={{ transition: "filter 0.5s ease" }}>
       <motion.div
         className="bento"
+        id="content"
         animate={wobble ? { rotate: [0, -1, 1, -1, 0] } : undefined}
         transition={wobble ? { duration: 0.5, ease: "easeInOut" } : undefined}
         layout={false}
