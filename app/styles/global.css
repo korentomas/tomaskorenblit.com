@@ -616,22 +616,32 @@ body.scroll-locked {
   margin: 0;
 }
 
-/* Filter bar */
+/* Filter bar — compact sticky nav above the grid */
 .filter-bar {
-  grid-column: 1 / -1;
-  overflow: hidden;
-  position: relative;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: oklch(from var(--bg) l c h / 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid oklch(0 0 0 / 0.06);
+}
+
+[data-theme="dark"] .filter-bar {
+  border-bottom-color: oklch(1 0 0 / 0.06);
 }
 
 .filter-bar-scroll {
   display: flex;
-  gap: 0.5rem;
+  gap: 0.35rem;
   overflow-x: auto;
   scrollbar-width: none;
   -webkit-overflow-scrolling: touch;
-  padding: 0.25rem 0;
-  mask-image: linear-gradient(to right, transparent, black 8px, black calc(100% - 8px), transparent);
-  -webkit-mask-image: linear-gradient(to right, transparent, black 8px, black calc(100% - 8px), transparent);
+  padding: 0.5rem clamp(16px, 4vw, 48px);
+  max-width: 960px;
+  margin: 0 auto;
+  mask-image: linear-gradient(to right, transparent, black 16px, black calc(100% - 16px), transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 16px, black calc(100% - 16px), transparent);
 }
 
 .filter-bar-scroll::-webkit-scrollbar {
@@ -640,21 +650,16 @@ body.scroll-locked {
 
 .filter-pill {
   flex-shrink: 0;
-  padding: 0.35rem 0.75rem;
+  padding: 0.2rem 0.6rem;
   border-radius: 999px;
   border: 1px solid oklch(0 0 0 / 0.15);
-  background: var(--tile-bg);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  background: transparent;
   font-family: var(--font-body);
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   color: var(--text-secondary);
   cursor: pointer;
   transition: all 0.15s ease-out;
   white-space: nowrap;
-  min-height: 44px;
-  display: flex;
-  align-items: center;
 }
 
 .filter-pill:hover {
@@ -693,8 +698,8 @@ body.scroll-locked {
 .filter-divider {
   flex-shrink: 0;
   width: 1px;
-  height: 20px;
-  background: oklch(0 0 0 / 0.1);
+  height: 14px;
+  background: oklch(0 0 0 / 0.12);
   align-self: center;
 }
 
@@ -808,8 +813,10 @@ body.scroll-locked {
     grid-column: span 1;
   }
 
-  .filter-bar {
-    grid-column: 1 / 3;
+  .filter-pill {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
   }
 }
 
@@ -833,10 +840,6 @@ body.scroll-locked {
 
   .tile--tall {
     grid-row: span 2;
-  }
-
-  .filter-bar {
-    grid-column: 1 / 3;
   }
 }
 

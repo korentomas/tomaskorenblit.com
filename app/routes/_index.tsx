@@ -284,6 +284,7 @@ export default function Index() {
 
   return (
     <div className={inverted ? "inverted" : ""} style={{ transition: "filter 0.5s ease" }}>
+      <FilterBar posts={posts} activeFilter={activeFilter} onFilter={handleFilter} />
       <motion.main
         className="bento"
         id="content"
@@ -356,8 +357,6 @@ export default function Index() {
             </div>
           </div>
         </div>
-
-        <FilterBar posts={posts} activeFilter={activeFilter} onFilter={handleFilter} />
 
         {/* Live region for screen readers */}
         <div className="sr-only" aria-live="polite" role="status">
