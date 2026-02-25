@@ -1,5 +1,5 @@
 import type { MetaFunction } from "@vercel/remix";
-import { useLoaderData } from "@remix-run/react";
+import { useLoaderData, useSearchParams } from "@remix-run/react";
 import { json } from "@remix-run/node";
 import { useState, useEffect, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -8,6 +8,7 @@ import type { BlogPost } from "~/utils/blog.server";
 import { MeshGradient } from "@paper-design/shaders-react";
 import { ShaderBanner } from "~/components/ShaderBanner";
 import { PostArticle } from "~/components/PostArticle";
+import { FilterBar } from "~/components/FilterBar";
 import { SITE_URL, SITE, SOCIAL_LINKS, mdxComponents } from "~/utils/site-config";
 
 /* ─── Layout ─────────────────────────────────────── */
@@ -124,6 +125,23 @@ export const meta: MetaFunction = () => [
 
 export default function Index() {
   const { posts } = useLoaderData<typeof loader>();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const activeFilter = (() => {
+    const category = searchParams.get("category");
+    const tag = searchParams.get("tag");
+    if (category) return { type: "category" as const, value: category };
+    if (tag) return { type: "tag" as const, value: tag };
+    return null;
+  })();
+
+  const handleFilter = useCallback((filter: { type: "category" | "tag"; value: string } | null) => {
+    if (!filter) {
+      setSearchParams({});
+    } else {
+      setSearchParams({ [filter.type]: filter.value });
+    }
+  }, [setSearchParams]);
+
   const [expandedSlug, setExpandedSlug] = useState<string | null>(null);
   const [PostComponent, setPostComponent] = useState<React.ComponentType | null>(null);
   const [postMeta, setPostMeta] = useState<BlogPost | null>(null);
@@ -253,7 +271,14 @@ export default function Index() {
     return "small";
   };
 
-  const visiblePosts = posts.slice(0, MAX_VISIBLE_POSTS);
+  const filteredPosts = activeFilter
+    ? posts.filter((post) => {
+        if (activeFilter.type === "category") return post.category === activeFilter.value;
+        if (activeFilter.type === "tag") return post.tags?.includes(activeFilter.value);
+        return true;
+      })
+    : posts;
+  const visiblePosts = filteredPosts.slice(0, activeFilter ? filteredPosts.length : MAX_VISIBLE_POSTS);
 
   return (
     <div className={inverted ? "inverted" : ""} style={{ transition: "filter 0.5s ease" }}>
@@ -329,6 +354,15 @@ export default function Index() {
           </div>
         </div>
 
+        <FilterBar posts={posts} activeFilter={activeFilter} onFilter={handleFilter} />
+
+        {/* Live region for screen readers */}
+        <div className="sr-only" aria-live="polite" role="status">
+          {activeFilter
+            ? `Showing ${filteredPosts.length} post${filteredPosts.length !== 1 ? "s" : ""}`
+            : `Showing all ${posts.length} posts`}
+        </div>
+
         {/* Blog tiles — sized by type */}
         {visiblePosts.map((post, i) => {
           const size = tileSize(post);
@@ -344,7 +378,7 @@ export default function Index() {
                 onKeyDown: (e: React.KeyboardEvent) => (e.key === "Enter" || e.key === " ") && openPost(post.slug),
               } : {})}
               style={{ "--tile-hue": getHue(post) } as React.CSSProperties}
-              layout={false}
+              layout="position"
             >
               <TilePreview post={post} height={size === "small" ? "48px" : "80px"} />
               <div>
@@ -366,7 +400,7 @@ export default function Index() {
         })}
 
         {/* View all tile */}
-        {posts.length > MAX_VISIBLE_POSTS && (
+        {!activeFilter && posts.length > MAX_VISIBLE_POSTS && (
           <div className="tile tile--small tile--viewall tile--clickable">
             <span className="viewall-text">View all writing →</span>
           </div>
