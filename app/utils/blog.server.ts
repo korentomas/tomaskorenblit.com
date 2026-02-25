@@ -2,14 +2,19 @@ export interface BlogPost {
   slug: string;
   title: string;
   date: string;
-  type: "essay" | "note";
+  type: "essay" | "note" | "project";
   excerpt: string;
-  shader?: string; // "mesh-gradient" | "neuro-noise" | "dot-orbit" | etc.
-  shaderColors?: string[]; // custom colors for the shader
-  hue?: number; // oklch hue 0-360, auto-generated from slug if omitted
-  cover?: string; // cover image path, e.g. "/blog/my-image.jpg"
-  layout?: "wide" | "tall" | "small"; // override tile size in bento grid
-  static?: boolean; // if true, tile is non-interactive (no hover, no click-to-open)
+  category: string;
+  tags?: string[];
+  shader?: string;
+  shaderColors?: string[];
+  hue?: number;
+  cover?: string;
+  layout?: "wide" | "tall" | "small";
+  static?: boolean;
+  repo?: string;
+  demo?: string;
+  status?: "active" | "archived";
 }
 
 // Import all MDX files from the blog directory
@@ -33,6 +38,18 @@ export function getAllPosts(): BlogPost[] {
   return posts.sort(
     (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
   );
+}
+
+export function getAllTags(posts: BlogPost[]): { tag: string; count: number }[] {
+  const counts = new Map<string, number>();
+  for (const post of posts) {
+    for (const tag of post.tags ?? []) {
+      counts.set(tag, (counts.get(tag) ?? 0) + 1);
+    }
+  }
+  return Array.from(counts.entries())
+    .map(([tag, count]) => ({ tag, count }))
+    .sort((a, b) => b.count - a.count);
 }
 
 export function getPost(slug: string) {

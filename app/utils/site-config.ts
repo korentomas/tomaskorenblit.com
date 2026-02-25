@@ -44,6 +44,14 @@ export const SOCIAL_LINKS = [
   },
 ] as const;
 
+export const CATEGORIES = [
+  { slug: "bayesian", label: "Bayesian" },
+  { slug: "causal-inference", label: "Causal Inference" },
+  { slug: "engineering", label: "Engineering" },
+  { slug: "data-science", label: "Data Science" },
+  { slug: "personal", label: "Personal" },
+] as const;
+
 export const mdxComponents = {
   Spoiler,
   Typewriter,
