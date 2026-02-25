@@ -628,6 +628,74 @@ body.scroll-locked {
   background: oklch(1 0 0 / 0.1);
 }
 
+/* Tile footer — date + project links */
+.tile-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-top: auto;
+  padding-top: 1rem;
+}
+
+.tile-footer .tile-date {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+.tile-project-links {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.tile-link-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0.5rem;
+  color: var(--text-secondary);
+  border-radius: 8px;
+  transition: color 0.15s ease-out, background 0.15s ease-out;
+}
+
+.tile-link-icon:hover {
+  color: var(--accent);
+  background: oklch(0 0 0 / 0.04);
+}
+
+[data-theme="dark"] .tile-link-icon:hover {
+  background: oklch(1 0 0 / 0.06);
+}
+
+/* Status pill */
+.tile-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-secondary);
+}
+
+.tile-status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--text-secondary);
+}
+
+.tile-status--active .tile-status-dot {
+  background: oklch(0.65 0.2 145);
+}
+
+.tile-status--archived .tile-status-dot {
+  background: var(--text-secondary);
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .bento {
