@@ -1,0 +1,41 @@
+---
+title: "Measuring knowledge so we don't become vessels"
+description: "A short note on Entendi, the knowledge tracing system I'm building for developers using AI, and why I'm writing at entendi.dev in addition to here."
+date: "2026-04-16"
+tags: ["Meta", "Entendi", "AI"]
+published: true
+---
+
+I started writing at [entendi.dev](https://entendi.dev) in addition to here. Here's what's behind it.
+
+For two years, I worked inside RLHF pipelines at frontier AI labs, from doing annotations myself to building the tools the trainers used. Then I saw it in my own work. I wrote safety instructions for coding sessions and over long conversations, the model quietly stopped following them. I found no framework for predicting when.
+
+So I started building one: a Bayesian model of per-instruction compliance where retention varies by instruction type. That became a paper, [*Not All Instructions Are Forgotten Equal*](/papers/not_all_instructions.pdf). Retention is uneven. Some instruction types hold across long contexts, others benefit from periodic reinforcement, and at least one is actively harmed by it: telling the model "don't do X" can make it more likely to do X.
+
+Guardrails are instructions. If safety rules decay at different rates than formatting preferences, uniform reinforcement is the wrong strategy. It wastes tokens on the rules the model already follows and can hurt the ones where negation confuses it.
+
+If that's what happens to instructions inside the model, what happens to the people on the other end?
+
+The answer, from the last year of research, is not encouraging. Anthropic's 2026 study had half of fifty-two engineers learn a new Python library with AI assistance. They scored 17% lower on comprehension afterwards than the half who didn't. METR ran experienced open-source developers on real issues in codebases they knew well. With AI, the developers were 19% slower. They felt faster. 69% of them kept using the tools after the study ended. Microsoft and Carnegie Mellon surveyed knowledge workers in 2025 and found that the more people relied on AI, the less critical thinking they reported doing. They called it cognitive offloading.
+
+That's what Entendi is about.
+
+## What it is
+
+Entendi is a knowledge tracing system for developers using AI. It sits in the IDE. It watches which concepts show up in the code you're shipping, and checks whether you actually understand them.
+
+The model is Bayesian Knowledge Tracing with some extensions. Each interaction updates a posterior over what you know. When your posterior on, say, `idempotency` is low and you just shipped code that depends on it, Entendi asks you a question about your own code. Ten seconds, in context.
+
+Managers see comprehension gaps across a team before the code ships. Individual devs get a private picture of where they're solid and where they're thin. The bet is simple: as AI writes more of the code, the thing worth measuring stops being lines written and becomes lines understood.
+
+I don't want to become a vessel for the code these tools write. If you can't explain what you shipped, you didn't ship it. The tool did.
+
+## Why two blogs
+
+The shift here is that more of what I write on tkoren.com is going to be about AI safety. It's the community I want to spend the next part of my career in, and writing publicly about the research is part of the path in.
+
+[entendi.dev](https://entendi.dev) is narrower. It's about what comprehension actually looks like when AI is writing your code, what the research on it says, what our pilot users are running into, and how the underlying math works when you look under the hood.
+
+A couple of posts are up there already. *There is still no silver bullet* is about Brooks, essential complexity, and what AI coding assistants didn't fix. *If you read this, go out for a walk today* is shorter and more personal.
+
+— Tomás
