@@ -32,7 +32,15 @@ export default function Now() {
         {NOW.sections.map((s) => (
           <section key={s.heading}>
             <h2>{s.heading}</h2>
-            <p>{s.body}</p>
+            <p>
+              {s.body}
+              {s.link && (
+                <>
+                  {" "}
+                  <a href={s.link.href}>{s.link.label}</a>.
+                </>
+              )}
+            </p>
           </section>
         ))}
 

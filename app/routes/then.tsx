@@ -44,7 +44,15 @@ export default function Then() {
               {snap.sections.map((s) => (
                 <div key={s.heading} className="stack">
                   <h3>{s.heading}</h3>
-                  <p>{s.body}</p>
+                  <p>
+                    {s.body}
+                    {s.link && (
+                      <>
+                        {" "}
+                        <a href={s.link.href}>{s.link.label}</a>.
+                      </>
+                    )}
+                  </p>
                 </div>
               ))}
             </section>

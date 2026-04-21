@@ -97,9 +97,15 @@ export const INTERESTS: Interest[] = [
 
 /* Now
    A snapshot of what I'm up to. Edit often. */
+export type NowSection = {
+  heading: string;
+  body: string;
+  link?: { href: string; label: string };
+};
+
 export type NowSnapshot = {
   date: string;
-  sections: { heading: string; body: string }[];
+  sections: NowSection[];
 };
 
 export const NOW: NowSnapshot = {
@@ -107,15 +113,23 @@ export const NOW: NowSnapshot = {
   sections: [
     {
       heading: "Work",
-      body: "Figuring out what's next.",
+      body: "Applying to AI safety fellowships and working through BlueDot Impact courses.",
     },
     {
       heading: "Reading",
-      body: "Re-reading Hamming's The Art of Doing Science and Engineering on the train.",
+      body: "Cannery Row by John Steinbeck.",
+    },
+    {
+      heading: "Writing",
+      body: "Drafting a paper on which instructions LLMs actually retain across long coding sessions (Not All Instructions Are Forgotten Equal). Bayesian ordered logistic over 244 compliance observations; treatment effects span an order of magnitude across instruction types.",
+      link: {
+        href: "/papers/not_all_instructions.pdf",
+        label: "Read the draft (PDF)",
+      },
     },
     {
       heading: "Thinking about",
-      body: "AI safety, particularly how you tell whether a system has understood a rule versus pattern-matched around it.",
+      body: "AI safety, particularly how you tell whether a system has internalized a rule versus pattern-matched around it.",
     },
   ],
 };
