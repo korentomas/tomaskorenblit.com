@@ -3,12 +3,12 @@ import { INTERESTS, SITE, SITE_URL } from "~/utils/site-config";
 import { TopNav, Footer } from "~/components/Layout";
 
 export const meta: MetaFunction = () => [
-  { title: `Interests — ${SITE.name}` },
+  { title: `Interests · ${SITE.name}` },
   {
     name: "description",
-    content: `What ${SITE.name} keeps returning to — Bayesian and causal inference, telescopes, tools for thought.`,
+    content: `What ${SITE.name} keeps returning to: Bayesian and causal inference, AI safety, tools for thought.`,
   },
-  { property: "og:title", content: `Interests — ${SITE.name}` },
+  { property: "og:title", content: `Interests · ${SITE.name}` },
   { property: "og:url", content: `${SITE_URL}/interests` },
   { tagName: "link", rel: "canonical", href: `${SITE_URL}/interests` },
 ];

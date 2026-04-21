@@ -5,6 +5,7 @@ const PAGES = [
   { path: "/books", heading: "Books" },
   { path: "/interests", heading: "Interests" },
   { path: "/now", heading: "Now" },
+  { path: "/then", heading: "Then" },
 ];
 
 for (const { path, heading } of PAGES) {
@@ -20,4 +21,5 @@ test("nav links visible on home", async ({ page }) => {
   await expect(nav.getByRole("link", { name: "Books" })).toBeVisible();
   await expect(nav.getByRole("link", { name: "Interests" })).toBeVisible();
   await expect(nav.getByRole("link", { name: "Now" })).toBeVisible();
+  await expect(nav.getByRole("link", { name: "Then" })).toBeVisible();
 });

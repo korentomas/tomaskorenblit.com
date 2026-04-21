@@ -4,20 +4,18 @@ export const SITE = {
   name: "Tomás Korenblit",
   alternateName: "Tomas Korenblit",
   title: "Causal & Bayesian Data Scientist",
-  bio: "Causal & Bayesian data scientist. Partner at Ascendancy. Buenos Aires.",
+  bio: "Causal & Bayesian data scientist. Buenos Aires.",
   email: "tomaskorenblit@gmail.com",
   image: "/optimized-images/also_me-800w-90q.webp",
-  worksFor: "Ascendancy",
   resumeUrl: "/resume/16-04-2026.pdf",
   description:
-    "Tomás Korenblit — causal and Bayesian data scientist, partner at Ascendancy. Notes on books, ideas, and what I'm working on.",
-  shortDescription:
-    "Causal and Bayesian data scientist, partner at Ascendancy.",
+    "Tomás Korenblit, causal and Bayesian data scientist. Notes on books, ideas, and what I'm working on.",
+  shortDescription: "Causal and Bayesian data scientist.",
   knowsAbout: [
     "Causal inference",
     "Bayesian statistics",
     "Data science",
-    "3D printing",
+    "AI safety",
     "Software engineering",
   ],
   social: {
@@ -26,10 +24,9 @@ export const SITE = {
   },
 } as const;
 
-/* ─── Books ──────────────────────────────────────────
+/* Books
    Short, opinionated. Add/remove freely.
-   "note" is your one-line take on why it's here.
-*/
+   "note" is your one-line take on why it's here. */
 export type Book = {
   title: string;
   author: string;
@@ -75,23 +72,22 @@ export const BOOKS: { section: string; items: Book[] }[] = [
   },
 ];
 
-/* ─── Interests ─────────────────────────────────────
-   Plain list. Each entry is a heading + short paragraph.
-*/
+/* Interests
+   Plain list. Each entry is a heading + short paragraph. */
 export type Interest = { title: string; body: string };
 
 export const INTERESTS: Interest[] = [
   {
     title: "Bayesian workflows",
-    body: "Priors as hypotheses, posteriors as arguments. I'm interested in pipelines that make uncertainty a first-class output — not an afterthought.",
+    body: "Priors as hypotheses, posteriors as arguments. I'm interested in pipelines that make uncertainty a first-class output, not an afterthought.",
   },
   {
     title: "Causal inference in business",
-    body: "Most decisions inside companies are causal questions in disguise. DAGs, difference-in-differences, synthetic controls — whatever the setting demands.",
+    body: "Most decisions inside companies are causal questions in disguise. DAGs, difference-in-differences, synthetic controls, whatever the setting demands.",
   },
   {
-    title: "3D-printed telescopes",
-    body: "Mostly Newtonians. I like the loop of design → print → observe → discover a new problem to solve.",
+    title: "AI safety",
+    body: "How do we keep increasingly capable systems reliably doing what we actually want? I'm drawn to the measurement and evaluation side: telling whether a model has internalized a rule versus pattern-matched around it.",
   },
   {
     title: "Writing tools for thinking",
@@ -99,24 +95,32 @@ export const INTERESTS: Interest[] = [
   },
 ];
 
-/* ─── Now ───────────────────────────────────────────
-   What I'm working on / reading / thinking about.
-   Keep short — edit often.
-*/
-export const NOW = {
-  updated: "2026-04-21",
+/* Now
+   A snapshot of what I'm up to. Edit often. */
+export type NowSnapshot = {
+  date: string;
+  sections: { heading: string; body: string }[];
+};
+
+export const NOW: NowSnapshot = {
+  date: "2026-04-21",
   sections: [
     {
       heading: "Work",
-      body: "At Ascendancy, building causal measurement for clients who care about why, not just what.",
+      body: "Figuring out what's next.",
     },
     {
       heading: "Reading",
       body: "Re-reading Hamming's The Art of Doing Science and Engineering on the train.",
     },
     {
-      heading: "Tinkering",
-      body: "A Newtonian telescope mount, mostly 3D-printed. Currently stuck on the altitude bearing.",
+      heading: "Thinking about",
+      body: "AI safety, particularly how you tell whether a system has understood a rule versus pattern-matched around it.",
     },
   ],
 };
+
+/* Then
+   Archive of past /now snapshots. Most recent first.
+   When you update NOW, push the previous snapshot to the top of this array. */
+export const THEN: NowSnapshot[] = [];

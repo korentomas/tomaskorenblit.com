@@ -7,6 +7,7 @@ export function TopNav({ current }: { current?: string }) {
     { to: "/books", label: "Books" },
     { to: "/interests", label: "Interests" },
     { to: "/now", label: "Now" },
+    { to: "/then", label: "Then" },
     { to: SITE.resumeUrl, label: "Resume", external: true },
   ];
   return (

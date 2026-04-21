@@ -3,12 +3,12 @@ import { BOOKS, SITE, SITE_URL } from "~/utils/site-config";
 import { TopNav, Footer } from "~/components/Layout";
 
 export const meta: MetaFunction = () => [
-  { title: `Books — ${SITE.name}` },
+  { title: `Books · ${SITE.name}` },
   {
     name: "description",
     content: `Books ${SITE.name} recommends, organized by theme.`,
   },
-  { property: "og:title", content: `Books — ${SITE.name}` },
+  { property: "og:title", content: `Books · ${SITE.name}` },
   { property: "og:url", content: `${SITE_URL}/books` },
   { tagName: "link", rel: "canonical", href: `${SITE_URL}/books` },
 ];
@@ -28,7 +28,7 @@ export default function Books() {
       <main id="content">
         <h1>Books</h1>
         <p className="lede">
-          A small, opinionated shelf. Not everything I've read — just what I'd
+          A small, opinionated shelf. Not everything I've read, just what I'd
           pass to a friend.
         </p>
 
