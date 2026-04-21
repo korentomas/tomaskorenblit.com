@@ -108,11 +108,11 @@ export const NOW = {
   sections: [
     {
       heading: "Work",
-      body: "At Ascendancy, building causal measurement for clients who care about *why*, not just *what*.",
+      body: "At Ascendancy, building causal measurement for clients who care about why, not just what.",
     },
     {
       heading: "Reading",
-      body: "Re-reading Hamming's *The Art of Doing Science and Engineering* on the train.",
+      body: "Re-reading Hamming's The Art of Doing Science and Engineering on the train.",
     },
     {
       heading: "Tinkering",

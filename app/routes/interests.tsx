@@ -10,6 +10,7 @@ export const meta: MetaFunction = () => [
   },
   { property: "og:title", content: `Interests — ${SITE.name}` },
   { property: "og:url", content: `${SITE_URL}/interests` },
+  { tagName: "link", rel: "canonical", href: `${SITE_URL}/interests` },
 ];
 
 export default function Interests() {

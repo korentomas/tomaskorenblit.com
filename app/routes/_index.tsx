@@ -6,6 +6,7 @@ import { TopNav, Footer } from "~/components/Layout";
 export const meta: MetaFunction = () => [
   { title: `${SITE.name} — ${SITE.title}` },
   { name: "description", content: SITE.description },
+  { tagName: "link", rel: "canonical", href: SITE_URL },
   { property: "og:type", content: "website" },
   { property: "og:url", content: SITE_URL },
   { property: "og:title", content: `${SITE.name} — ${SITE.title}` },

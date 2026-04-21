@@ -10,6 +10,7 @@ export const meta: MetaFunction = () => [
   },
   { property: "og:title", content: `Books — ${SITE.name}` },
   { property: "og:url", content: `${SITE_URL}/books` },
+  { tagName: "link", rel: "canonical", href: `${SITE_URL}/books` },
 ];
 
 function Stars({ n }: { n: number }) {

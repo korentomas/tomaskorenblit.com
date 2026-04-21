@@ -10,12 +10,13 @@ export const meta: MetaFunction = () => [
   },
   { property: "og:title", content: `Now — ${SITE.name}` },
   { property: "og:url", content: `${SITE_URL}/now` },
+  { tagName: "link", rel: "canonical", href: `${SITE_URL}/now` },
 ];
 
 export default function Now() {
   const formatted = new Date(NOW.updated + "T00:00:00Z").toLocaleDateString(
     "en-US",
-    { year: "numeric", month: "long", day: "numeric" },
+    { year: "numeric", month: "long", day: "numeric", timeZone: "UTC" },
   );
   return (
     <>

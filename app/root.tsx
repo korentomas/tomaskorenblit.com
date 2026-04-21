@@ -7,13 +7,12 @@ import {
 } from "@remix-run/react";
 import { Analytics } from "@vercel/analytics/remix";
 import styles from "./styles/global.css?url";
-import { SITE_URL, SITE } from "~/utils/site-config";
+import { SITE } from "~/utils/site-config";
 
 export const links = () => [
   { rel: "stylesheet", href: styles },
   { rel: "icon", href: "/favicon.ico", sizes: "32x32" },
   { rel: "apple-touch-icon", href: "/me.png" },
-  { rel: "canonical", href: SITE_URL },
 ];
 
 export const meta = () => [
