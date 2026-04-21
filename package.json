@@ -1,5 +1,5 @@
 {
-  "name": "my-remix-app",
+  "name": "tkoren-site",
   "private": true,
   "sideEffects": false,
   "type": "module",
@@ -11,23 +11,14 @@
     "typecheck": "tsc"
   },
   "dependencies": {
-    "@mdx-js/react": "3.1.1",
-    "@mdx-js/rollup": "3.1.1",
-    "@paper-design/shaders-react": "0.0.71",
     "@remix-run/node": "2.10.0",
     "@remix-run/react": "2.10.0",
     "@remix-run/server-runtime": "2.10.0",
     "@vercel/analytics": "1.6.1",
     "@vercel/remix": "2.10.0",
-    "dialkit": "0.2.2",
-    "framer-motion": "^12.9.2",
-    "gray-matter": "4.0.3",
     "isbot": "^4",
-    "motion": "12.34.3",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "remark-frontmatter": "5.0.0",
-    "remark-mdx-frontmatter": "5.2.0"
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
     "@axe-core/playwright": "4.11.1",

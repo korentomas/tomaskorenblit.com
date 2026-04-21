@@ -18,7 +18,7 @@ export const links = () => [
 
 export const meta = () => [
   { name: "author", content: SITE.name },
-  { name: "theme-color", content: "#F7F6F3" },
+  { name: "theme-color", content: "#fdfdfb" },
   { name: "robots", content: "index, follow, max-image-preview:large, max-snippet:-1" },
 ];
 
@@ -28,13 +28,6 @@ export default function App() {
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <script dangerouslySetInnerHTML={{ __html: `
-          (function() {
-            var t = localStorage.getItem('theme');
-            if (!t) t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-            document.documentElement.setAttribute('data-theme', t);
-          })();
-        ` }} />
         <Meta />
         <Links />
       </head>
@@ -48,3 +41,5 @@ export default function App() {
     </html>
   );
 }
+
+export { ErrorBoundary } from "~/components/ErrorBoundary";

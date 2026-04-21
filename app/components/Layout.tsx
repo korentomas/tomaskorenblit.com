@@ -1,0 +1,44 @@
+import { Link } from "@remix-run/react";
+import { SITE } from "~/utils/site-config";
+
+export function TopNav({ current }: { current?: string }) {
+  const links = [
+    { to: "/", label: "Home" },
+    { to: "/books", label: "Books" },
+    { to: "/interests", label: "Interests" },
+    { to: "/now", label: "Now" },
+    { to: SITE.resumeUrl, label: "Resume", external: true },
+  ];
+  return (
+    <nav className="topnav" aria-label="Primary">
+      {links.map((l) =>
+        l.external ? (
+          <a key={l.to} href={l.to}>
+            {l.label}
+          </a>
+        ) : (
+          <Link
+            key={l.to}
+            to={l.to}
+            aria-current={current === l.to ? "page" : undefined}
+          >
+            {l.label}
+          </Link>
+        ),
+      )}
+    </nav>
+  );
+}
+
+export function Footer() {
+  return (
+    <footer>
+      <p>
+        <a href={`mailto:${SITE.email}`}>{SITE.email}</a> ·{" "}
+        <a href={SITE.social.github}>GitHub</a> ·{" "}
+        <a href={SITE.social.linkedin}>LinkedIn</a>
+      </p>
+      <p className="muted">© {new Date().getFullYear()} {SITE.name}.</p>
+    </footer>
+  );
+}

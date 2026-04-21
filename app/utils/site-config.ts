@@ -1,6 +1,3 @@
-import { Spoiler, Typewriter } from "~/components/EasterEgg";
-import { Figure, ImageGrid } from "~/components/Figure";
-
 export const SITE_URL = "https://tkoren.com";
 
 export const SITE = {
@@ -12,8 +9,10 @@ export const SITE = {
   image: "/optimized-images/also_me-800w-90q.webp",
   worksFor: "Ascendancy",
   resumeUrl: "/resume/16-04-2026.pdf",
-  description: "Tomás Korenblit is a causal and Bayesian data scientist, partner at Ascendancy. Writing about data, code, and 3D-printed telescopes.",
-  shortDescription: "Causal and Bayesian data scientist, partner at Ascendancy. Writing about data, code, and 3D-printed telescopes.",
+  description:
+    "Tomás Korenblit — causal and Bayesian data scientist, partner at Ascendancy. Notes on books, ideas, and what I'm working on.",
+  shortDescription:
+    "Causal and Bayesian data scientist, partner at Ascendancy.",
   knowsAbout: [
     "Causal inference",
     "Bayesian statistics",
@@ -27,44 +26,113 @@ export const SITE = {
   },
 } as const;
 
-export const SOCIAL_LINKS = [
-  {
-    href: SITE.resumeUrl,
-    label: "Resume (PDF)",
-    icon: '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><polyline points="14 2 14 8 20 8" /><line x1="16" y1="13" x2="8" y2="13" /><line x1="16" y1="17" x2="8" y2="17" /><polyline points="10 9 9 9 8 9" />',
-  },
-  {
-    href: SITE.social.github,
-    label: "GitHub",
-    icon: '<path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />',
-  },
-  {
-    href: SITE.social.linkedin,
-    label: "LinkedIn",
-    icon: '<path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" /><rect x="2" y="9" width="4" height="12" /><circle cx="4" cy="4" r="2" />',
-  },
-  {
-    href: `mailto:${SITE.email}`,
-    label: "Email",
-    icon: '<path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" /><polyline points="22,6 12,13 2,6" />',
-  },
-] as const;
+/* ─── Books ──────────────────────────────────────────
+   Short, opinionated. Add/remove freely.
+   "note" is your one-line take on why it's here.
+*/
+export type Book = {
+  title: string;
+  author: string;
+  note?: string;
+  rating?: 1 | 2 | 3 | 4 | 5;
+};
 
-export const CATEGORIES = [
-  { slug: "bayesian", label: "Bayesian" },
-  { slug: "causal-inference", label: "Causal Inference" },
-  { slug: "engineering", label: "Engineering" },
-  { slug: "data-science", label: "Data Science" },
-  { slug: "personal", label: "Personal" },
-] as const;
+export const BOOKS: { section: string; items: Book[] }[] = [
+  {
+    section: "Bayesian & causal inference",
+    items: [
+      {
+        title: "Statistical Rethinking",
+        author: "Richard McElreath",
+        note: "The book that turned Bayes from mystical to practical for me.",
+        rating: 5,
+      },
+      {
+        title: "The Book of Why",
+        author: "Judea Pearl & Dana Mackenzie",
+        note: "Accessible door into causal reasoning. Read before the Primer.",
+        rating: 4,
+      },
+      {
+        title: "Causal Inference: The Mixtape",
+        author: "Scott Cunningham",
+        note: "Econometrics meets modern causal methods. Warm, readable.",
+        rating: 5,
+      },
+    ],
+  },
+  {
+    section: "Thinking & craft",
+    items: [
+      {
+        title: "The Art of Doing Science and Engineering",
+        author: "Richard Hamming",
+        note: "On doing work that matters. Dense with one-liners.",
+        rating: 5,
+      },
+      {
+        title: "Thinking, Fast and Slow",
+        author: "Daniel Kahneman",
+        note: "System 1/2 framing is still useful scaffolding.",
+        rating: 4,
+      },
+    ],
+  },
+  {
+    section: "Fiction & life",
+    items: [
+      {
+        title: "Stoner",
+        author: "John Williams",
+        note: "A quiet novel about a quiet life. Wrecked me.",
+        rating: 5,
+      },
+    ],
+  },
+];
 
-export const CATEGORY_LABELS = Object.fromEntries(
-  CATEGORIES.map((c) => [c.slug, c.label])
-) as Record<string, string>;
+/* ─── Interests ─────────────────────────────────────
+   Plain list. Each entry is a heading + short paragraph.
+*/
+export type Interest = { title: string; body: string };
 
-export const mdxComponents = {
-  Spoiler,
-  Typewriter,
-  Figure,
-  ImageGrid,
+export const INTERESTS: Interest[] = [
+  {
+    title: "Bayesian workflows",
+    body: "Priors as hypotheses, posteriors as arguments. I'm interested in pipelines that make uncertainty a first-class output — not an afterthought.",
+  },
+  {
+    title: "Causal inference in business",
+    body: "Most decisions inside companies are causal questions in disguise. DAGs, difference-in-differences, synthetic controls — whatever the setting demands.",
+  },
+  {
+    title: "3D-printed telescopes",
+    body: "Mostly Newtonians. I like the loop of design → print → observe → discover a new problem to solve.",
+  },
+  {
+    title: "Writing tools for thinking",
+    body: "Plain text, local files, a few well-aimed scripts. Less magic, more leverage.",
+  },
+];
+
+/* ─── Now ───────────────────────────────────────────
+   What I'm working on / reading / thinking about.
+   Keep short — edit often.
+*/
+export const NOW = {
+  updated: "2026-04-21",
+  sections: [
+    {
+      heading: "Work",
+      body: "At Ascendancy, building causal measurement for clients who care about *why*, not just *what*.",
+    },
+    {
+      heading: "Reading",
+      body: "Re-reading Hamming's *The Art of Doing Science and Engineering* on the train.",
+    },
+    {
+      heading: "Tinkering",
+      body: "A Newtonian telescope mount, mostly 3D-printed. Currently stuck on the altitude bearing.",
+    },
+  ],
 };
