@@ -52,7 +52,7 @@ export const BOOKS: { section: string; items: Book[] }[] = [
     ],
   },
   {
-    section: "Consciousness & mind",
+    section: "Non-fiction",
     items: [
       {
         title: "El nudo de la conciencia",
@@ -66,6 +66,10 @@ export const BOOKS: { section: string; items: Book[] }[] = [
       {
         title: "The Pearl",
         author: "John Steinbeck",
+      },
+      {
+        title: "Cat's Cradle",
+        author: "Kurt Vonnegut",
       },
     ],
   },
