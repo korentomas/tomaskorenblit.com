@@ -39,53 +39,33 @@ export type Book = {
 
 export const BOOKS: { section: string; items: Book[] }[] = [
   {
-    section: "Bayesian & causal inference",
+    section: "Causal & Bayesian",
     items: [
-      {
-        title: "Statistical Rethinking",
-        author: "Richard McElreath",
-        note: "The book that turned Bayes from mystical to practical for me.",
-        rating: 5,
-      },
       {
         title: "The Book of Why",
         author: "Judea Pearl & Dana Mackenzie",
-        note: "Accessible door into causal reasoning. Read before the Primer.",
-        rating: 4,
       },
       {
-        title: "Causal Inference: The Mixtape",
-        author: "Scott Cunningham",
-        note: "Econometrics meets modern causal methods. Warm, readable.",
-        rating: 5,
+        title: "Bayesian Analysis with Python",
+        author: "Osvaldo Martin",
       },
     ],
   },
   {
-    section: "Thinking & craft",
+    section: "Consciousness & mind",
     items: [
       {
-        title: "The Art of Doing Science and Engineering",
-        author: "Richard Hamming",
-        note: "On doing work that matters. Dense with one-liners.",
-        rating: 5,
-      },
-      {
-        title: "Thinking, Fast and Slow",
-        author: "Daniel Kahneman",
-        note: "System 1/2 framing is still useful scaffolding.",
-        rating: 4,
+        title: "El nudo de la conciencia",
+        author: "Enzo Tagliazucchi",
       },
     ],
   },
   {
-    section: "Fiction & life",
+    section: "Fiction",
     items: [
       {
-        title: "Stoner",
-        author: "John Williams",
-        note: "A quiet novel about a quiet life. Wrecked me.",
-        rating: 5,
+        title: "The Pearl",
+        author: "John Steinbeck",
       },
     ],
   },
