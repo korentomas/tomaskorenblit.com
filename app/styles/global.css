@@ -279,8 +279,9 @@ footer {
 /* Accessibility */
 .skip-link {
   position: absolute;
-  top: -40px;
+  top: 0;
   left: 0;
+  transform: translateY(-110%);
   background: var(--text);
   color: var(--bg);
   padding: 0.5rem 0.75rem;
@@ -289,7 +290,7 @@ footer {
 }
 
 .skip-link:focus {
-  top: 0;
+  transform: translateY(0);
 }
 
 .sr-only {
