@@ -18,7 +18,7 @@ export const links = () => [
 
 export const meta = () => [
   { name: "author", content: SITE.name },
-  { name: "theme-color", content: "#f4efe4" },
+  { name: "theme-color", content: "#0a1b0a" },
   { name: "robots", content: "index, follow, max-image-preview:large, max-snippet:-1" },
 ];
 

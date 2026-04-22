@@ -12,7 +12,7 @@ export const THEMES = [
 export type Theme = (typeof THEMES)[number];
 
 export function ThemePicker() {
-  const [theme, setTheme] = useState<Theme>("paper");
+  const [theme, setTheme] = useState<Theme>("terminal");
 
   useEffect(() => {
     const saved = localStorage.getItem("theme") as Theme | null;

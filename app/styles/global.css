@@ -10,6 +10,17 @@
 /* Themes ──────────────────────────────────────────── */
 
 :root,
+[data-theme="terminal"] {
+  --bg: #0a1b0a;
+  --bg-deep: #0d220d;
+  --text: #6fe06a;
+  --muted: #3d9a38;
+  --rule: #1c3a1c;
+  --link: #b0ff7d;
+  --link-visited: #70c040;
+  --grain: none;
+}
+
 [data-theme="paper"] {
   --bg: #f4efe4;
   --bg-deep: #ebe3d1;
@@ -18,7 +29,9 @@
   --rule: #d8cfbc;
   --link: #0b4aa2;
   --link-visited: #6c3e9e;
-  --grain: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.25 0 0 0 0 0.17 0 0 0 0 0.10 0 0 0 0.10 0'/></filter><rect width='200' height='200' filter='url(%23n)'/></svg>");
+  /* Chunkier, more visible grain: larger tile (400), lower baseFrequency
+     (bigger noise blobs), 3 octaves, higher alpha. Reads as real paper. */
+  --grain: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='400'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.35' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.32 0 0 0 0 0.22 0 0 0 0 0.14 0 0 0 0.28 0'/></filter><rect width='400' height='400' filter='url(%23n)'/></svg>");
 }
 
 [data-theme="ink"] {
@@ -29,17 +42,6 @@
   --rule: #2a2520;
   --link: #8cc0ff;
   --link-visited: #c8a4d4;
-  --grain: none;
-}
-
-[data-theme="terminal"] {
-  --bg: #0a1b0a;
-  --bg-deep: #0d220d;
-  --text: #6fe06a;
-  --muted: #3d9a38;
-  --rule: #1c3a1c;
-  --link: #b0ff7d;
-  --link-visited: #70c040;
   --grain: none;
 }
 
