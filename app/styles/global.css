@@ -2,20 +2,78 @@
    Serif body, blue underlined links, one column, no chrome. */
 
 :root {
-  --bg: #f4efe4;            /* warm cream, like unbleached paper */
-  --bg-deep: #ebe3d1;       /* slightly darker edge tone */
-  --text: #1f1a15;          /* warm ink, softer than pure black */
-  --muted: #6a5f50;         /* sepia-tinted gray */
-  --rule: #d8cfbc;          /* warm rule line */
-  --link: #0b4aa2;
-  --link-visited: #6c3e9e;
   --max-width: 38rem;
   --font-body: Charter, "Bitstream Charter", "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
   --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
 
-  /* Subtle paper grain, tiled 200x200 SVG noise in a warm ink tone.
-     Kept low opacity so it reads as texture, not decoration. */
+/* Themes ──────────────────────────────────────────── */
+
+:root,
+[data-theme="paper"] {
+  --bg: #f4efe4;
+  --bg-deep: #ebe3d1;
+  --text: #1f1a15;
+  --muted: #6a5f50;
+  --rule: #d8cfbc;
+  --link: #0b4aa2;
+  --link-visited: #6c3e9e;
   --grain: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.25 0 0 0 0 0.17 0 0 0 0 0.10 0 0 0 0.10 0'/></filter><rect width='200' height='200' filter='url(%23n)'/></svg>");
+}
+
+[data-theme="ink"] {
+  --bg: #0f0d0a;
+  --bg-deep: #1a1612;
+  --text: #e8e0cc;
+  --muted: #9a8f7c;
+  --rule: #2a2520;
+  --link: #8cc0ff;
+  --link-visited: #c8a4d4;
+  --grain: none;
+}
+
+[data-theme="terminal"] {
+  --bg: #0a1b0a;
+  --bg-deep: #0d220d;
+  --text: #6fe06a;
+  --muted: #3d9a38;
+  --rule: #1c3a1c;
+  --link: #b0ff7d;
+  --link-visited: #70c040;
+  --grain: none;
+}
+
+[data-theme="amber"] {
+  --bg: #1a1208;
+  --bg-deep: #22190d;
+  --text: #e8a340;
+  --muted: #a07030;
+  --rule: #3a2a18;
+  --link: #ffc870;
+  --link-visited: #c88030;
+  --grain: none;
+}
+
+[data-theme="blueprint"] {
+  --bg: #19263a;
+  --bg-deep: #1f2e44;
+  --text: #c2daf3;
+  --muted: #7995b4;
+  --rule: #334862;
+  --link: #9ed4ff;
+  --link-visited: #d4a8f0;
+  --grain: none;
+}
+
+[data-theme="plum"] {
+  --bg: #1a0f1c;
+  --bg-deep: #25162a;
+  --text: #d4b4dc;
+  --muted: #8a6d96;
+  --rule: #3a2a45;
+  --link: #e8b4f0;
+  --link-visited: #a5d4ff;
+  --grain: none;
 }
 
 * {
@@ -251,6 +309,34 @@ footer {
   max-width: var(--max-width);
   margin: 4rem auto;
   padding: 0 1.25rem;
+}
+
+/* Theme picker (row of text buttons in the footer) */
+.theme-picker {
+  margin: 0.5rem 0 0;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.theme-btn {
+  background: none;
+  border: 0;
+  padding: 0;
+  font: inherit;
+  color: var(--link);
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.theme-btn:hover {
+  text-decoration: none;
+}
+
+.theme-btn-active {
+  color: var(--text);
+  font-weight: 600;
+  text-decoration: none;
 }
 
 /* Respect user motion prefs (nothing animated, but just in case) */

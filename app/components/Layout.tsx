@@ -1,5 +1,6 @@
 import { Link, useLocation } from "@remix-run/react";
 import { SITE } from "~/utils/site-config";
+import { ThemePicker } from "./ThemePicker";
 
 export function TopNav({ current }: { current?: string }) {
   const links = [
@@ -57,6 +58,7 @@ export function Footer() {
         <a href={SITE.social.github}>GitHub</a> ·{" "}
         <a href={SITE.social.linkedin}>LinkedIn</a>
       </p>
+      <ThemePicker />
       <p className="muted">© {new Date().getFullYear()} {SITE.name}.</p>
     </footer>
   );

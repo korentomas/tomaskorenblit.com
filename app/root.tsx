@@ -24,10 +24,11 @@ export const meta = () => [
 
 export default function App() {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <script src="/theme-init.js" />
         <Meta />
         <Links />
       </head>
