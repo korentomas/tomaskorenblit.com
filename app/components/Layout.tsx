@@ -1,4 +1,4 @@
-import { Link } from "@remix-run/react";
+import { Link, useLocation } from "@remix-run/react";
 import { SITE } from "~/utils/site-config";
 
 export function TopNav({ current }: { current?: string }) {
@@ -28,6 +28,24 @@ export function TopNav({ current }: { current?: string }) {
         ),
       )}
     </nav>
+  );
+}
+
+export function SiteHeader() {
+  const { pathname } = useLocation();
+  const isHome = pathname === "/";
+  return (
+    <header className="site-header">
+      {isHome ? (
+        <h1 className="site-name">{SITE.name}</h1>
+      ) : (
+        <p className="site-name">
+          <Link to="/">{SITE.name}</Link>
+        </p>
+      )}
+      <p className="site-tagline">{SITE.bio}</p>
+      <TopNav current={pathname} />
+    </header>
   );
 }
 

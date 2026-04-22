@@ -8,6 +8,7 @@ import {
 import { Analytics } from "@vercel/analytics/remix";
 import styles from "./styles/global.css?url";
 import { SITE } from "~/utils/site-config";
+import { SiteHeader, Footer } from "~/components/Layout";
 
 export const links = () => [
   { rel: "stylesheet", href: styles },
@@ -32,7 +33,9 @@ export default function App() {
       </head>
       <body>
         <a href="#content" className="skip-link">Skip to content</a>
+        <SiteHeader />
         <Outlet />
+        <Footer />
         <ScrollRestoration />
         <Scripts />
         <Analytics />

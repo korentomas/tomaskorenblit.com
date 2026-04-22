@@ -1,6 +1,5 @@
 import type { MetaFunction } from "@vercel/remix";
 import { INTERESTS, SITE, SITE_URL } from "~/utils/site-config";
-import { TopNav, Footer } from "~/components/Layout";
 
 export const meta: MetaFunction = () => [
   { title: `Interests · ${SITE.name}` },
@@ -15,21 +14,16 @@ export const meta: MetaFunction = () => [
 
 export default function Interests() {
   return (
-    <>
-      <main id="content">
-        <h1>Interests</h1>
-        <p className="lede">Subjects I keep coming back to.</p>
+    <main id="content">
+      <h1>Interests</h1>
+      <p className="lede">Subjects I keep coming back to.</p>
 
-        <TopNav current="/interests" />
-
-        {INTERESTS.map((it) => (
-          <section key={it.title}>
-            <h2>{it.title}</h2>
-            <p>{it.body}</p>
-          </section>
-        ))}
-      </main>
-      <Footer />
-    </>
+      {INTERESTS.map((it) => (
+        <section key={it.title}>
+          <h2>{it.title}</h2>
+          <p>{it.body}</p>
+        </section>
+      ))}
+    </main>
   );
 }

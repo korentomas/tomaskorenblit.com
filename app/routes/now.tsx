@@ -1,7 +1,6 @@
 import type { MetaFunction } from "@vercel/remix";
 import { Link } from "@remix-run/react";
 import { NOW, SITE, SITE_URL } from "~/utils/site-config";
-import { TopNav, Footer } from "~/components/Layout";
 
 export const meta: MetaFunction = () => [
   { title: `Now · ${SITE.name}` },
@@ -20,38 +19,33 @@ export default function Now() {
     { year: "numeric", month: "long", day: "numeric", timeZone: "UTC" },
   );
   return (
-    <>
-      <main id="content">
-        <h1>Now</h1>
-        <p className="lede">
-          What I'm working on this month. Updated {formatted}.
-        </p>
+    <main id="content">
+      <h1>Now</h1>
+      <p className="lede">
+        What I'm working on this month. Updated {formatted}.
+      </p>
 
-        <TopNav current="/now" />
+      {NOW.sections.map((s) => (
+        <section key={s.heading}>
+          <h2>{s.heading}</h2>
+          <p>
+            {s.body}
+            {s.link && (
+              <>
+                {" "}
+                <a href={s.link.href}>{s.link.label}</a>.
+              </>
+            )}
+          </p>
+        </section>
+      ))}
 
-        {NOW.sections.map((s) => (
-          <section key={s.heading}>
-            <h2>{s.heading}</h2>
-            <p>
-              {s.body}
-              {s.link && (
-                <>
-                  {" "}
-                  <a href={s.link.href}>{s.link.label}</a>.
-                </>
-              )}
-            </p>
-          </section>
-        ))}
-
-        <hr />
-        <p className="muted">
-          This is a <a href="https://nownownow.com/about">/now page</a>, a
-          snapshot of my current focus. Older snapshots live on{" "}
-          <Link to="/then">/then</Link>.
-        </p>
-      </main>
-      <Footer />
-    </>
+      <hr />
+      <p className="muted">
+        This is a <a href="https://nownownow.com/about">/now page</a>, a
+        snapshot of my current focus. Older snapshots live on{" "}
+        <Link to="/then">/then</Link>.
+      </p>
+    </main>
   );
 }

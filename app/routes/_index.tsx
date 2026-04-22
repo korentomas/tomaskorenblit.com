@@ -1,7 +1,6 @@
 import type { MetaFunction } from "@vercel/remix";
 import { Link } from "@remix-run/react";
 import { SITE, SITE_URL } from "~/utils/site-config";
-import { TopNav, Footer } from "~/components/Layout";
 
 export const meta: MetaFunction = () => [
   { title: `${SITE.name} · ${SITE.title}` },
@@ -37,57 +36,49 @@ export const meta: MetaFunction = () => [
 
 export default function Index() {
   return (
-    <>
-      <main id="content">
-        <h1>{SITE.name}</h1>
-        <p className="lede">{SITE.bio}</p>
+    <main id="content">
+      <p>
+        I'm a data scientist focused on causal inference and Bayesian
+        workflows. I help teams answer questions about <em>why</em> things
+        happen, not only <em>what</em> happened.
+      </p>
 
-        <p>
-          I'm a data scientist focused on causal inference and Bayesian
-          workflows. I help teams answer questions about <em>why</em> things
-          happen, not only <em>what</em> happened.
-        </p>
+      <p>
+        Outside work I read widely, think about AI safety, and tinker with
+        small tools for thinking.
+      </p>
 
-        <p>
-          Outside work I read widely, think about AI safety, and tinker with
-          small tools for thinking.
-        </p>
+      <h2>Elsewhere</h2>
+      <ul>
+        <li>
+          <a href={SITE.social.github}>GitHub</a> (code)
+        </li>
+        <li>
+          <a href={SITE.social.linkedin}>LinkedIn</a> (work history)
+        </li>
+        <li>
+          <a href={`mailto:${SITE.email}`}>Email</a> (best way to reach me)
+        </li>
+        <li>
+          <a href={SITE.resumeUrl}>Resume (PDF)</a>
+        </li>
+      </ul>
 
-        <TopNav current="/" />
-
-        <h2>Elsewhere</h2>
-        <ul>
-          <li>
-            <a href={SITE.social.github}>GitHub</a> (code)
-          </li>
-          <li>
-            <a href={SITE.social.linkedin}>LinkedIn</a> (work history)
-          </li>
-          <li>
-            <a href={`mailto:${SITE.email}`}>Email</a> (best way to reach me)
-          </li>
-          <li>
-            <a href={SITE.resumeUrl}>Resume (PDF)</a>
-          </li>
-        </ul>
-
-        <h2>Pages</h2>
-        <ul>
-          <li>
-            <Link to="/books">Books</Link> (what I've read and liked)
-          </li>
-          <li>
-            <Link to="/interests">Interests</Link> (what I keep returning to)
-          </li>
-          <li>
-            <Link to="/now">Now</Link> (what I'm working on this month)
-          </li>
-          <li>
-            <Link to="/then">Then</Link> (archived /now snapshots)
-          </li>
-        </ul>
-      </main>
-      <Footer />
-    </>
+      <h2>Pages</h2>
+      <ul>
+        <li>
+          <Link to="/books">Books</Link> (what I've read and liked)
+        </li>
+        <li>
+          <Link to="/interests">Interests</Link> (what I keep returning to)
+        </li>
+        <li>
+          <Link to="/now">Now</Link> (what I'm working on this month)
+        </li>
+        <li>
+          <Link to="/then">Then</Link> (archived /now snapshots)
+        </li>
+      </ul>
+    </main>
   );
 }
