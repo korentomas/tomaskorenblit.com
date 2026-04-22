@@ -18,7 +18,9 @@ export function ThemePicker() {
     try {
       const saved = localStorage.getItem("theme") as Theme | null;
       if (saved && THEMES.includes(saved)) setTheme(saved);
-    } catch {}
+    } catch {
+      // Ignore storage access failures (e.g., Safari private mode).
+    }
   }, []);
 
   const change = (next: Theme) => {
