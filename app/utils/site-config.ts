@@ -1,24 +1,21 @@
-import { Spoiler, Typewriter } from "~/components/EasterEgg";
-import { Figure, ImageGrid } from "~/components/Figure";
-
 export const SITE_URL = "https://tkoren.com";
 
 export const SITE = {
   name: "Tomás Korenblit",
   alternateName: "Tomas Korenblit",
   title: "Causal & Bayesian Data Scientist",
-  bio: "Causal & Bayesian data scientist. Partner at Ascendancy. Buenos Aires.",
+  bio: "Causal & Bayesian data scientist. Buenos Aires.",
   email: "tomaskorenblit@gmail.com",
   image: "/optimized-images/also_me-800w-90q.webp",
-  worksFor: "Ascendancy",
   resumeUrl: "/resume/16-04-2026.pdf",
-  description: "Tomás Korenblit is a causal and Bayesian data scientist, partner at Ascendancy. Writing about data, code, and 3D-printed telescopes.",
-  shortDescription: "Causal and Bayesian data scientist, partner at Ascendancy. Writing about data, code, and 3D-printed telescopes.",
+  description:
+    "Tomás Korenblit, causal and Bayesian data scientist. Notes on books, ideas, and what I'm working on.",
+  shortDescription: "Causal and Bayesian data scientist.",
   knowsAbout: [
     "Causal inference",
     "Bayesian statistics",
     "Data science",
-    "3D printing",
+    "AI safety",
     "Software engineering",
   ],
   social: {
@@ -27,44 +24,117 @@ export const SITE = {
   },
 } as const;
 
-export const SOCIAL_LINKS = [
-  {
-    href: SITE.resumeUrl,
-    label: "Resume (PDF)",
-    icon: '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><polyline points="14 2 14 8 20 8" /><line x1="16" y1="13" x2="8" y2="13" /><line x1="16" y1="17" x2="8" y2="17" /><polyline points="10 9 9 9 8 9" />',
-  },
-  {
-    href: SITE.social.github,
-    label: "GitHub",
-    icon: '<path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />',
-  },
-  {
-    href: SITE.social.linkedin,
-    label: "LinkedIn",
-    icon: '<path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" /><rect x="2" y="9" width="4" height="12" /><circle cx="4" cy="4" r="2" />',
-  },
-  {
-    href: `mailto:${SITE.email}`,
-    label: "Email",
-    icon: '<path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" /><polyline points="22,6 12,13 2,6" />',
-  },
-] as const;
-
-export const CATEGORIES = [
-  { slug: "bayesian", label: "Bayesian" },
-  { slug: "causal-inference", label: "Causal Inference" },
-  { slug: "engineering", label: "Engineering" },
-  { slug: "data-science", label: "Data Science" },
-  { slug: "personal", label: "Personal" },
-] as const;
-
-export const CATEGORY_LABELS = Object.fromEntries(
-  CATEGORIES.map((c) => [c.slug, c.label])
-) as Record<string, string>;
-
-export const mdxComponents = {
-  Spoiler,
-  Typewriter,
-  Figure,
-  ImageGrid,
+/* Books
+   Short, opinionated. Add/remove freely.
+   "note" is your one-line take on why it's here. */
+export type Book = {
+  title: string;
+  author: string;
+  note?: string;
+  rating?: 1 | 2 | 3 | 4 | 5;
 };
+
+export const BOOKS: { section: string; items: Book[] }[] = [
+  {
+    section: "Causal & Bayesian",
+    items: [
+      {
+        title: "The Book of Why",
+        author: "Judea Pearl & Dana Mackenzie",
+      },
+      {
+        title: "Bayesian Analysis with Python",
+        author: "Osvaldo Martin",
+      },
+    ],
+  },
+  {
+    section: "Non-fiction",
+    items: [
+      {
+        title: "El nudo de la conciencia",
+        author: "Enzo Tagliazucchi",
+      },
+    ],
+  },
+  {
+    section: "Fiction",
+    items: [
+      {
+        title: "The Pearl",
+        author: "John Steinbeck",
+      },
+      {
+        title: "Cat's Cradle",
+        author: "Kurt Vonnegut",
+      },
+    ],
+  },
+];
+
+/* Interests
+   Plain list. Each entry is a heading + short paragraph. */
+export type Interest = { title: string; body: string };
+
+export const INTERESTS: Interest[] = [
+  {
+    title: "Bayesian workflows",
+    body: "Priors as hypotheses, posteriors as arguments. I'm interested in pipelines that make uncertainty a first-class output, not an afterthought.",
+  },
+  {
+    title: "Causal inference in business",
+    body: "Most decisions inside companies are causal questions in disguise. DAGs, difference-in-differences, synthetic controls, whatever the setting demands.",
+  },
+  {
+    title: "AI safety",
+    body: "How do we keep increasingly capable systems reliably doing what we actually want? I'm drawn to the measurement and evaluation side: telling whether a model has internalized a rule versus pattern-matched around it.",
+  },
+  {
+    title: "Writing tools for thinking",
+    body: "Plain text, local files, a few well-aimed scripts. Less magic, more leverage.",
+  },
+];
+
+/* Now
+   A snapshot of what I'm up to. Edit often. */
+export type NowSection = {
+  heading: string;
+  body: string;
+  link?: { href: string; label: string };
+};
+
+export type NowSnapshot = {
+  date: string;
+  sections: NowSection[];
+};
+
+export const NOW: NowSnapshot = {
+  date: "2026-04-21",
+  sections: [
+    {
+      heading: "Work",
+      body: "Applying to AI safety fellowships and working through BlueDot Impact courses.",
+    },
+    {
+      heading: "Reading",
+      body: "Cannery Row by John Steinbeck.",
+    },
+    {
+      heading: "Writing",
+      body: "Drafting a paper on which instructions LLMs actually retain across long coding sessions (Not All Instructions Are Forgotten Equal). Bayesian ordered logistic over 244 compliance observations; treatment effects span an order of magnitude across instruction types.",
+      link: {
+        href: "/papers/not_all_instructions.pdf",
+        label: "Read the draft (PDF)",
+      },
+    },
+    {
+      heading: "Thinking about",
+      body: "AI safety, particularly how you tell whether a system has internalized a rule versus pattern-matched around it.",
+    },
+  ],
+};
+
+/* Then
+   Archive of past /now snapshots. Most recent first.
+   When you update NOW, push the previous snapshot to the top of this array. */
+export const THEN: NowSnapshot[] = [];
