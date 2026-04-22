@@ -2,15 +2,20 @@
    Serif body, blue underlined links, one column, no chrome. */
 
 :root {
-  --bg: #fdfdfb;
-  --text: #1a1a1a;
-  --muted: #6a6a6a;
-  --rule: #e5e2d8;
+  --bg: #f4efe4;            /* warm cream, like unbleached paper */
+  --bg-deep: #ebe3d1;       /* slightly darker edge tone */
+  --text: #1f1a15;          /* warm ink, softer than pure black */
+  --muted: #6a5f50;         /* sepia-tinted gray */
+  --rule: #d8cfbc;          /* warm rule line */
   --link: #0b4aa2;
   --link-visited: #6c3e9e;
   --max-width: 38rem;
   --font-body: Charter, "Bitstream Charter", "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
   --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+
+  /* Subtle paper grain, tiled 200x200 SVG noise in a warm ink tone.
+     Kept low opacity so it reads as texture, not decoration. */
+  --grain: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.25 0 0 0 0 0.17 0 0 0 0 0.10 0 0 0 0.10 0'/></filter><rect width='200' height='200' filter='url(%23n)'/></svg>");
 }
 
 * {
@@ -28,9 +33,25 @@ body {
   font-size: 18px;
   line-height: 1.55;
   color: var(--text);
-  background: var(--bg);
+  background-color: var(--bg);
+  background-image: var(--grain);
+  background-repeat: repeat;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+}
+
+/* Keyboard focus: crisp, accessible, paper-friendly */
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--link);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* Remove focus ring when clicking (mouse users), keep for keyboard */
+a:focus:not(:focus-visible),
+button:focus:not(:focus-visible) {
+  outline: none;
 }
 
 .site-header {
