@@ -15,8 +15,12 @@ export function ThemePicker() {
   const [theme, setTheme] = useState<Theme>("terminal");
 
   useEffect(() => {
-    const saved = localStorage.getItem("theme") as Theme | null;
-    if (saved && THEMES.includes(saved)) setTheme(saved);
+    try {
+      const saved = localStorage.getItem("theme") as Theme | null;
+      if (saved && THEMES.includes(saved)) setTheme(saved);
+    } catch {
+      // Ignore storage access failures (e.g., Safari private mode).
+    }
   }, []);
 
   const change = (next: Theme) => {

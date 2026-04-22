@@ -5,6 +5,18 @@
   "framework": "remix",
   "outputDirectory": "build",
   "regions": ["iad1"],
+  "redirects": [
+    {
+      "source": "/blog",
+      "destination": "/",
+      "statusCode": 301
+    },
+    {
+      "source": "/blog/:path*",
+      "destination": "/",
+      "statusCode": 301
+    }
+  ],
   "headers": [
     {
       "source": "/(.*)",
