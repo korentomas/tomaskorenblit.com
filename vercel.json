@@ -9,12 +9,12 @@
     {
       "source": "/blog",
       "destination": "/",
-      "permanent": true
+      "statusCode": 301
     },
     {
       "source": "/blog/:path*",
       "destination": "/",
-      "permanent": true
+      "statusCode": 301
     }
   ],
   "headers": [
