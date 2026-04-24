@@ -74,7 +74,7 @@
   --muted: #8a6d96;
   --rule: #3a2a45;
   --link: #e8b4f0;
-  --link-visited: #a5d4ff;
+  --link-visited: #b890c2;
   --grain: none;
 }
 
@@ -127,7 +127,8 @@ button:focus:not(:focus-visible) {
   margin: 0;
 }
 
-.site-name a {
+.site-name a,
+.site-name a:visited {
   color: inherit;
   text-decoration: none;
 }
